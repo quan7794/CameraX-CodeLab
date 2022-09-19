@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f2f2f2"
     tools:context=".crop.CropFragment">
 
     <LinearLayout
@@ -16,14 +17,15 @@
             android:id="@+id/cropView"
             android:layout_width="match_parent"
             android:layout_height="500dp"
-            android:src="@color/cardview_dark_background"
+            android:src="#A18C8C"
             app:gridInnerColor="#66ffffff"
             app:gridInnerStroke="1dp"
             app:gridOuterColor="#ffffff"
             app:gridOuterStroke="1dp"
+            app:outsideLayerColor="#f2f2f2"
+            app:outsideLayerColorWhenMoving="#4DF2F2F2"
             app:layout_constraintBottom_toTopOf="@+id/Reset"
             app:layout_constraintTop_toTopOf="parent"
-            app:outsideLayerColor="#99000000"
             app:setInnerGridMode="on"
             app:setOuterGridMode="on"
             tools:layout_editor_absoluteX="12dp" />

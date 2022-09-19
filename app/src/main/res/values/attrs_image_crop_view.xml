@@ -18,6 +18,7 @@
         <attr name="gridLeftRightMargin" format="dimension" />
         <attr name="gridTopBottomMargin" format="dimension" />
         <attr name="outsideLayerColor" format="color" />
+        <attr name="outsideLayerColorWhenMoving" format="color" />
     </declare-styleable>
 
 </resources>

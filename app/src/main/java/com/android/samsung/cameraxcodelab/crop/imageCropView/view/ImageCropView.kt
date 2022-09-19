@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.os.Handler
+import android.os.Looper
 import android.util.AttributeSet
 import android.util.Log
 import android.util.TypedValue
@@ -35,7 +36,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
     open var mBaseMatrix = Matrix()
     open var mSuppMatrix = Matrix()
     open val mDisplayMatrix = Matrix()
-    open var mHandler = Handler()
+    open var mHandler = Handler(Looper.getMainLooper())
     open var mLayoutRunnable: Runnable? = null
     open var mUserScaled = false
     private var mMaxZoom = ZOOM_INVALID
@@ -44,6 +45,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
     // true when min and max zoom are explicitly defined
     private var mMaxZoomDefined = false
     private var mMinZoomDefined = false
+
     open val mMatrixValues = FloatArray(9)
     private var mThisWidth = -1
     private var mThisHeight = -1
@@ -56,6 +58,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
     open var mScrollRect = RectF()
     open var mCropRect = RectF()
     private var mOutsideLayerPaint: Paint? = null
+    private var mOutsideLayerPaintWhenMoving: Paint? = null
     private var mAspectRatioWidth = DEFAULT_ASPECT_RATIO_WIDTH
     private var mAspectRatioHeight = DEFAULT_ASPECT_RATIO_HEIGHT
     private var mTargetAspectRatio = (mAspectRatioHeight / mAspectRatioWidth).toFloat()
@@ -74,7 +77,11 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
     open var mTouchSlop = 0
     open var mScaleFactor = 0f
     open var mDoubleTapDirection = 0
+
     open var mGestureListener: GestureDetector.OnGestureListener? = null
+    var isGesturing = false
+        private set
+
     open var mScaleListener: OnScaleGestureListener? = null
     var doubleTapEnabled = false
     protected var mScaleEnabled = true
@@ -87,9 +94,15 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
 
     private fun init(context: Context, attrs: AttributeSet?) {
         val a = context.obtainStyledAttributes(attrs, R.styleable.ImageCropView)
-        mOutsideLayerPaint = Paint()
+
         val outsideLayerColor = a.getColor(R.styleable.ImageCropView_outsideLayerColor, Color.parseColor(DEFAULT_OUTSIDE_LAYER_COLOR_ID))
+        mOutsideLayerPaint = Paint()
         mOutsideLayerPaint!!.color = outsideLayerColor
+
+        val outsideLayerColorWhenMoving = a.getColor(R.styleable.ImageCropView_outsideLayerColorWhenMoving, Color.parseColor(DEFAULT_OUTSIDE_MOVING_LAYER_COLOR_ID))
+        mOutsideLayerPaintWhenMoving = Paint()
+        mOutsideLayerPaintWhenMoving!!.color = outsideLayerColorWhenMoving
+
         scaleType = ScaleType.MATRIX
         mGridInnerLinePaint = Paint()
         val gridInnerStrokeWidth = a.getDimension(R.styleable.ImageCropView_gridInnerStroke, 1f)
@@ -112,6 +125,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
         a.recycle()
         mTouchSlop = ViewConfiguration.get(getContext()).scaledTouchSlop
         mGestureListener = GestureListener()
+
         mScaleListener = ScaleListener()
         mScaleDetector = ScaleGestureDetector(getContext(), mScaleListener)
         mGestureDetector = GestureDetector(getContext(), mGestureListener, null, true)
@@ -130,7 +144,8 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        drawTransparentLayer(canvas)
+        Log.d("onDraw", "Entry")
+        drawTransparentLayer(canvas) //todo: draw 30% when gesture, 100% when finger up.
         drawGrid(canvas)
     }
 
@@ -204,7 +219,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
                     if (!mUserScaled) {
                         zoomTo(scale)
                     } else {
-                        if (Math.abs(oldScale - oldMinScale) > 0.001) {
+                        if (abs(oldScale - oldMinScale) > 0.001) {
                             scale = oldMatrixScale / newMatrixScale * oldScale
                         }
                         if (LOG_ENABLED) {
@@ -268,12 +283,13 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
           |              bottom               |
           -------------------------------------
          */
+        val paint = if (isGesturing) mOutsideLayerPaintWhenMoving else mOutsideLayerPaint
         val r = Rect()
         getLocalVisibleRect(r)
-        canvas.drawRect(r.left.toFloat(), r.top.toFloat(), r.right.toFloat(), mCropRect.top, mOutsideLayerPaint!!) // top
-        canvas.drawRect(r.left.toFloat(), mCropRect.bottom, r.right.toFloat(), r.bottom.toFloat(), mOutsideLayerPaint!!) // bottom
-        canvas.drawRect(r.left.toFloat(), mCropRect.top, mCropRect.left, mCropRect.bottom, mOutsideLayerPaint!!) // left
-        canvas.drawRect(mCropRect.right, mCropRect.top, r.right.toFloat(), mCropRect.bottom, mOutsideLayerPaint!!) // right
+        canvas.drawRect(r.left.toFloat(), r.top.toFloat(), r.right.toFloat(), mCropRect.top, paint!!) // top
+        canvas.drawRect(r.left.toFloat(), mCropRect.bottom, r.right.toFloat(), r.bottom.toFloat(), paint) // bottom
+        canvas.drawRect(r.left.toFloat(), mCropRect.top, mCropRect.left, mCropRect.bottom, paint) // left
+        canvas.drawRect(mCropRect.right, mCropRect.top, r.right.toFloat(), mCropRect.bottom, paint) // right
     }
 
     private fun drawGrid(canvas: Canvas) {
@@ -377,8 +393,8 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
             super.setImageDrawable(null)
         }
         if (minZoom != ZOOM_INVALID && maxZoom != ZOOM_INVALID) {
-            minZoom = Math.min(minZoom, maxZoom)
-            maxZoom = Math.max(minZoom, maxZoom)
+            minZoom = min(minZoom, maxZoom)
+            maxZoom = max(minZoom, maxZoom)
             mMinZoom = minZoom
             mMaxZoom = maxZoom
             mMinZoomDefined = true
@@ -466,7 +482,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
         if (w > viewWidth || h > viewHeight) {
             widthScale = viewWidth / w
             heightScale = viewHeight / h
-            baseScale = Math.max(widthScale, heightScale)
+            baseScale = max(widthScale, heightScale)
             matrix.postScale(baseScale, baseScale)
             val tw = (viewWidth - w * baseScale) / 2.0f
             val th = (viewHeight - h * baseScale) / 2.0f
@@ -474,7 +490,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
         } else {
             widthScale = viewWidth / w
             heightScale = viewHeight / h
-            baseScale = Math.max(widthScale, heightScale)
+            baseScale = max(widthScale, heightScale)
             matrix.postScale(baseScale, baseScale)
             val tw = (viewWidth - w * baseScale) / 2.0f
             val th = (viewHeight - h * baseScale) / 2.0f
@@ -526,6 +542,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
     protected fun center(horizontal: Boolean, vertical: Boolean) {
+        Log.d("center()","___________________________")
         if (drawable == null) return
         val rect = getCenter(mSuppMatrix, horizontal, vertical)
         if (rect.left != 0f || rect.top != 0f) {
@@ -626,16 +643,19 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
     fun scrollBy(x: Float, y: Float) {
+        Log.d("scrollBy","__________")
         panBy(x.toDouble(), y.toDouble())
     }
 
     protected fun panBy(dx: Double, dy: Double) {
+        Log.d("panBy","__________")
         mScrollRect[dx.toFloat(), dy.toFloat(), 0f] = 0f
         postTranslate(mScrollRect.left, mScrollRect.top)
         adjustCropAreaImage()
     }
 
     private fun adjustCropAreaImage() {
+        Log.d("adjustCropAreaImage","__________")
         if (drawable == null) return
         val rect = getAdjust(mSuppMatrix)
         if (rect.left != 0f || rect.top != 0f) {
@@ -822,10 +842,9 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (mBitmapChanged) return false
+        isGesturing = true
         mScaleDetector!!.onTouchEvent(event)
-        if (!mScaleDetector!!.isInProgress) {
-            mGestureDetector!!.onTouchEvent(event)
-        }
+        if (!mScaleDetector!!.isInProgress) mGestureDetector!!.onTouchEvent(event)
         val action = event.action
         when (action and MotionEvent.ACTION_MASK) {
             MotionEvent.ACTION_UP -> return onUp(event)
@@ -876,10 +895,11 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
     fun onUp(e: MotionEvent?): Boolean {
+        Log.d("onUp","______")
         if (mBitmapChanged) return false
-        if (scale < minScale) {
-            zoomTo(minScale, 50f)
-        }
+        if (scale < minScale) zoomTo(minScale, 50f)
+        isGesturing = false
+        invalidate()
         return true
     }
 
@@ -897,13 +917,13 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
 
         override fun onDoubleTap(e: MotionEvent): Boolean {
             if (LOG_ENABLED) {
-                Log.d(LOG_TAG, "onDoubleTap. double tap enabled? " + doubleTapEnabled)
+                Log.d(LOG_TAG, "onDoubleTap. double tap enabled? $doubleTapEnabled")
             }
             if (doubleTapEnabled) {
                 mUserScaled = true
                 val scale = scale
                 var targetScale = onDoubleTapPost(scale, maxScale)
-                targetScale = Math.min(maxScale, Math.max(targetScale, minScale))
+                targetScale = min(maxScale, max(targetScale, minScale))
                 zoomTo(targetScale, e.x, e.y, DEFAULT_ANIMATION_DURATION.toFloat())
                 invalidate()
             }
@@ -1018,7 +1038,8 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
         const val DEFAULT_ASPECT_RATIO_HEIGHT = 1
         const val GRID_OFF = 0
         const val GRID_ON = 1
-        private const val DEFAULT_OUTSIDE_LAYER_COLOR_ID = "#99000000"
+        private const val DEFAULT_OUTSIDE_LAYER_COLOR_ID = "#f2f2f2"
+        private const val DEFAULT_OUTSIDE_MOVING_LAYER_COLOR_ID = "#4DF2F2F2"
     }
 
     init {
