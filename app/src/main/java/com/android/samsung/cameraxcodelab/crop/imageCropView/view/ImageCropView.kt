@@ -8,7 +8,6 @@ import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
 import android.util.Log
-import android.util.TypedValue
 import android.view.GestureDetector
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.MotionEvent
@@ -22,6 +21,7 @@ import com.android.samsung.cameraxcodelab.crop.imageCropView.model.CropInfo
 import com.android.samsung.cameraxcodelab.crop.imageCropView.model.ViewState
 import com.android.samsung.cameraxcodelab.crop.imageCropView.util.BitmapLoadUtils.decode
 import com.android.samsung.cameraxcodelab.crop.imageCropView.view.graphics.FastBitmapDrawable
+import com.android.samsung.cameraxcodelab.crop.imageCropView.view.util.dpToPx
 import it.sephiroth.android.library.easing.Cubic
 import it.sephiroth.android.library.easing.Easing
 import java.io.File
@@ -31,7 +31,8 @@ import kotlin.math.min
 
 @SuppressLint("AppCompatCustomView")
 @SuppressWarnings("WeakerAccess", "unused")
-open class ImageCropView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : ImageView(context, attrs, defStyle) {
+open class ImageCropView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) :
+    ImageView(context, attrs, defStyle) {
     open var mEasing: Easing = Cubic()
     open var mBaseMatrix = Matrix()
     open var mSuppMatrix = Matrix()
@@ -99,7 +100,8 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
         mOutsideLayerPaint = Paint()
         mOutsideLayerPaint!!.color = outsideLayerColor
 
-        val outsideLayerColorWhenMoving = a.getColor(R.styleable.ImageCropView_outsideLayerColorWhenMoving, Color.parseColor(DEFAULT_OUTSIDE_MOVING_LAYER_COLOR_ID))
+        val outsideLayerColorWhenMoving =
+            a.getColor(R.styleable.ImageCropView_outsideLayerColorWhenMoving, Color.parseColor(DEFAULT_OUTSIDE_MOVING_LAYER_COLOR_ID))
         mOutsideLayerPaintWhenMoving = Paint()
         mOutsideLayerPaintWhenMoving!!.color = outsideLayerColorWhenMoving
 
@@ -415,7 +417,9 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
 
     private fun computeMaxZoom(): Float {
         Log.i(LOG_TAG, "computeMaxZoom: entry")
-        if (drawable == null) { return 1f }
+        if (drawable == null) {
+            return 1f
+        }
         val fw = drawable.intrinsicWidth.toFloat() / mThisWidth.toFloat()
         val fh = drawable.intrinsicHeight.toFloat() / mThisHeight.toFloat()
         val scale = max(fw, fh) * 8
@@ -542,7 +546,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
     protected fun center(horizontal: Boolean, vertical: Boolean) {
-        Log.d("center()","___________________________")
+        Log.d("center()", "___________________________")
         if (drawable == null) return
         val rect = getCenter(mSuppMatrix, horizontal, vertical)
         if (rect.left != 0f || rect.top != 0f) {
@@ -643,19 +647,19 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
     fun scrollBy(x: Float, y: Float) {
-        Log.d("scrollBy","__________")
+        Log.d("scrollBy", "__________")
         panBy(x.toDouble(), y.toDouble())
     }
 
     protected fun panBy(dx: Double, dy: Double) {
-        Log.d("panBy","__________")
+        Log.d("panBy", "__________")
         mScrollRect[dx.toFloat(), dy.toFloat(), 0f] = 0f
         postTranslate(mScrollRect.left, mScrollRect.top)
         adjustCropAreaImage()
     }
 
     private fun adjustCropAreaImage() {
-        Log.d("adjustCropAreaImage","__________")
+        Log.d("adjustCropAreaImage", "__________")
         if (drawable == null) return
         val rect = getAdjust(mSuppMatrix)
         if (rect.left != 0f || rect.top != 0f) {
@@ -700,7 +704,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
                 var old_y = 0.0
                 override fun run() {
                     val now = System.currentTimeMillis()
-                    val currentMs = Math.min(durationMs, (now - startTime).toDouble())
+                    val currentMs = min(durationMs, (now - startTime).toDouble())
                     val x = mEasing.easeOut(currentMs, 0.0, dx, durationMs)
                     val y = mEasing.easeOut(currentMs, 0.0, dy, durationMs)
                     panBy(x - old_x, y - old_y)
@@ -729,12 +733,11 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
             object : Runnable {
                 override fun run() {
                     val now = System.currentTimeMillis()
-                    val currentMs = Math.min(durationMs, (now - startTime).toFloat())
+                    val currentMs = min(durationMs, (now - startTime).toFloat())
                     val newScale = mEasing.easeInOut(currentMs.toDouble(), 0.0, deltaScale.toDouble(), durationMs.toDouble()).toFloat()
                     zoomTo(oldScale + newScale, destX, destY)
-                    if (currentMs < durationMs) {
-                        mHandler.post(this)
-                    } else {
+                    if (currentMs < durationMs) mHandler.post(this)
+                    else {
                         onZoomAnimationCompleted(scale)
                         center(true, true)
                     }
@@ -751,9 +754,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
                 bitmap = cropInfo.getCroppedImage(imageFilePath)
             } else {
                 bitmap = viewBitmap
-                if (bitmap != null) {
-                    bitmap = cropInfo.getCroppedImage(bitmap)
-                }
+                if (bitmap != null) bitmap = cropInfo.getCroppedImage(bitmap)
             }
             return bitmap
         }
@@ -762,16 +763,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
             val viewBitmap = viewBitmap ?: return null
             val scale = baseScale * scale
             val viewImageRect = bitmapRect
-            return CropInfo(
-                scale,
-                viewBitmap.width.toFloat(),
-                viewImageRect!!.top,
-                viewImageRect.left,
-                mCropRect.top,
-                mCropRect.left,
-                mCropRect.width(),
-                mCropRect.height()
-            )
+            return CropInfo(scale, viewBitmap.width.toFloat(), viewImageRect!!.top, viewImageRect.left, mCropRect.top, mCropRect.left, mCropRect.width(), mCropRect.height())
         }
     val viewBitmap: Bitmap?
         get() {
@@ -795,17 +787,13 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
     fun setGridLeftRightMargin(marginDP: Int) {
-        gridLeftRightMargin = dpToPixel(marginDP).toFloat()
+        gridLeftRightMargin = dpToPx(marginDP).toFloat()
         requestLayout()
     }
 
     fun setGridTopBottomMargin(marginDP: Int) {
-        gridTopBottomMargin = dpToPixel(marginDP).toFloat()
+        gridTopBottomMargin = dpToPx(marginDP).toFloat()
         requestLayout()
-    }
-
-    private fun dpToPixel(dp: Int): Int {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), resources.displayMetrics).toInt()
     }
 
     fun saveState(): ViewState {
@@ -890,12 +878,10 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
         return false
     }
 
-    fun onDown(e: MotionEvent?): Boolean {
-        return !mBitmapChanged
-    }
+    fun onDown(e: MotionEvent?) = !mBitmapChanged
 
     fun onUp(e: MotionEvent?): Boolean {
-        Log.d("onUp","______")
+        Log.d("onUp", "______")
         if (mBitmapChanged) return false
         if (scale < minScale) zoomTo(minScale, 50f)
         isGesturing = false
@@ -903,9 +889,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
         return true
     }
 
-    fun onSingleTapUp(e: MotionEvent?): Boolean {
-        return !mBitmapChanged
-    }
+    fun onSingleTapUp(e: MotionEvent?) = !mBitmapChanged
 
     inner class GestureListener : SimpleOnGestureListener() {
         override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
@@ -972,7 +956,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
         }
 
         override fun onScale(detector: ScaleGestureDetector): Boolean {
-            Log.d("onScale","Entry")
+            Log.d("onScale", "Entry")
             val span = detector.currentSpan - detector.previousSpan
             var targetScale = scale * detector.scaleFactor
             if (mScaleEnabled) {
@@ -993,7 +977,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
         }
 
         override fun onScaleEnd(detector: ScaleGestureDetector) {
-            Log.d("onScale","End")
+            Log.d("onScale", "End")
             isChangingScale = false
             super.onScaleEnd(detector)
         }

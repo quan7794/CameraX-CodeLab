@@ -7,10 +7,25 @@
     android:background="#f2f2f2"
     tools:context=".crop.CropFragment">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/descriptionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/Reset"
+        android:text="Resize and place your photo to show property in Edge Blending."
+        android:gravity="center_horizontal"
+        android:textColor="@color/black"
+        android:elevation="10dp"
+        android:layout_marginHorizontal="72dp"
+        app:layout_constraintBottom_toTopOf="@id/cropViewArea"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/cropViewArea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.android.samsung.cameraxcodelab.crop.imageCropView.view.ImageCropView
@@ -24,21 +39,22 @@
             app:gridOuterStroke="1dp"
             app:outsideLayerColor="#f2f2f2"
             app:outsideLayerColorWhenMoving="#4DF2F2F2"
-            app:layout_constraintBottom_toTopOf="@+id/Reset"
-            app:layout_constraintTop_toTopOf="parent"
             app:setInnerGridMode="on"
             app:setOuterGridMode="on"
             tools:layout_editor_absoluteX="12dp" />
-    </LinearLayout>
-
+    </FrameLayout>
 
     <Button
-        android:id="@+id/Reset"
+        android:id="@+id/resetButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:elevation="10dp"
+        android:text="Crop &amp; Save"
+        android:textColor="@color/black"
+        android:background="@drawable/effect_image_button_with_round"
+        android:foreground="@drawable/raised_button_bg"
+        app:layout_constraintTop_toBottomOf="@id/cropViewArea"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="Reset"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
