@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <!--SID to be added in MenuTree-->
+
+    <!--Frame-->
+    <string name="MAPP_SID_FRAME_TO_USE_THE_FULL_FEATURES">To use the full features, you need to turn on the TV from a close distance."</string>
+    <string name="MAPP_SID_FRAME_SEE_MORE">See More</string>
+    <string name="MAPP_SID_FRAME_NEWS_EVENT_ERROR">Failed to get news. Please try again</string>
+    <string name="MAPP_SID_FRAME_NEWS_EVENT_NO_DATA">No news or event found</string>
+    <string name="MAPP_SID_FRAME_SEARCH_NO_HISTORY">No history found</string>
+    <string name="MAPP_SID_FRAME_SEARCH_NO_RESULT">No results found</string>
+    <string name="MAPP_SID_FRAME_SEARCH_ERROR">Failed to get result. Please try again</string>
+    <string name="MAPP_SID_FRAME_ART_STORE_IS_LOADING">"Art store is loading content. Please try later"</string>
+    <string name="MAPP_SID_FRAME_CREATE_MY_SHELF">"Create My Shelf"</string>
+    <string name="MAPP_SID_FRAME_MY_SHELF_CATEGORY">"My Shelf"</string>
+    <string name="MAPP_SID_FRAME_SHELF_BEEN_SET_ON_FRAME">The shelf has been set on The Frame.</string>
+    <string name="COM_TV_SID_CAOCT_NON_FRAME">The Frame</string>
+
+    <!--Ambient-->
+    <string name="MAPP_SID_AMBIENT_SELECT_CONTENT">Select Content</string>
+    <string name="MAPP_SID_AMBIENT_ADD_CITY_CLOCK">Set City</string>
+    <string name="MAPP_SID_AMBIENT_SET_CITY_CLOCK_SUBTITLE">Set City Clock</string>
+    <string name="MAPP_SID_AMBIENT_ROTATOR_MAXFIFTYSLIDESHOW">Slideshow will display 25 photos only as the maximum number of photos has been reached.</string>
+    <string name="MAPP_SID_AMBIENT_SUPPORT_ONLY_LANDSCAPE_MODE" translatable="false">Supported only in landscape mode.</string>
+    <string name="OLD_MAPP_SID_AMBIENT_CBJAN_RELIVE_OUR_PRECIOUS_MEMORIES_BACKGORUND_MSG" translatable="false">Relive your precious memories by displaying your personal photos. You can also create your own background by taking a photo of the wall surrounding your %1$s.</string>
+
+    <!--Multiview Accessibility-->
+    <string name="MAPP_SID_MLED_REMOTE_SOURCE">The Wall Plus Source</string>
+    <string name="MAPP_SID_MLED_REMOTE_SWIPE">Swipe to control the volume</string>
+
+    <!-- Sero OS Upgrade -->
+    <string name="SID_UPGRADE_FINISHED">%1$s의 업데이트가 완료되었습니다. 앱을 종료하고 다시 실행해주세요.</string>
+
+    <!-- EzCal -->
+    <string name="MAPP_SID_EZCAL_CANCEL_SETUP_FAILED_POPUP_TITLE">Setup failed</string>
+    <string name="MAPP_SID_EZCAL_CANCEL_SETUP_FAILED_POPUP_DESCRIPTION">Setup failed.</string>
+
+    <!-- etc -->
+    <string name="OLD_MAPP_SID_AMBIENT_MIX_CBJAN_VIEW_ON">View on %1$s</string>
+    <string name="OLD_MAPP_SID_AMBIENT_TO_USE_FEATURE_CLOSE_DISTANCE">To use this feature, you need to turn on the %1$s from a close distance.</string>
+    <string name="OLD_MAPP_SID_AMBIENT_CBJAN_FUNCTION_6PHONES_FUNCTION">This function is available for up to 6 phones. There are already 6 devices using this function on your %1$s.</string>
+    <string name="OLD_MAPP_SID_AMBIENT_CBJAN_SENDING_CONTENT_DOT">Sending content to the  %1$s...</string>
+    <string name="OLD_MAPP_SID_AMBIENT_CBJAN_ERROR_OCCURRED_MOBILE">An error occurred with your mobile and %1$s devices.</string>
+    <string name="OLD_MAPP_SID_AMBIENT_CBJAN_UNABLE_TO_SET">Unable to view on %1$s</string>
+    <string name="OLD_MAPP_SID_CORE_MIX_CAMAR_FAILED_CONNECT_TO_UR">Failed to connect to your %1$s.</string>
+    <string name="OLD_COM_SID_CONNECT_MAKE_SURE_SMARTPHONE_SAME_NW">Make sure your %1$s and smartphone are connected to the same network.</string>
+    <string name="OLD_MAPP_SID_AMBIENT_CBJAN_SELELCT_FILTER_TRANSFORM_MSG">Select a filter to transform a photo into a drawing. You can immediately see the changes on your %1$s.</string>
+
+    <!--    LifeStyle-->
+    <string name="COM_SID_SERO_ADD_PHOTOS_PERSONALIZE_FRAME">Add your photos to personalize The Frame experience.</string>
+    <string name="COM_TV_SID_MLED_CAOCT_NON_MBOX">The Wall</string>
+
+    <!--    QD-->
+    <string name="COM_TV_SID_QD_MODEL_SHORTCUT">This feature is not supported by your TV model.</string>
+
+    <!--Development Setting-->
+    <string name="SID_DEVICE_INFO_DEV_MODE">3be6950970b6ee7703d9926dd4b9fb9d617c5c3030828bc245a28b0079e0810c</string>
+    <string name="DEBUGGING_TV_INFO">Debugging Tv Info</string>
+
+    <!-- TLog-->
+    <string name="MAPP_SID_CORE_CASEP_NON_ARK">Odyssey Ark</string>
+
+    //PLUG OUT MODE
+    <string name="connect_to_device" translatable="false">Connect to device</string>
+    <string name="heart_emoji">❤</string>
+
+    <!-- EB Mode -->
+    <string name="COM_SID_EB_EDGE_BLENDING" translatable="false">Edge Blending</string>
+    <string name="COM_SID_EB_EDGE_BLENDING_DESCRIPTION" translatable="false">Share your favorite contents to multiple freestyle device.</string>
+</resources>

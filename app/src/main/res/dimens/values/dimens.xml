@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="main_header_height">56dp</dimen>
+
+    <dimen name="home_fragment_header_height">@dimen/dimen_59dp_h</dimen>
+    <dimen name="home_fragment_header_top_margin">@dimen/dimen_15dp_h</dimen>
+    <dimen name="home_fragment_header_start_margin">@dimen/dimen_20dp_w</dimen>
+    <dimen name="home_fragment_header_end_margin">@dimen/dimen_10dp_w</dimen>
+
+    <dimen name="core_sub_category_tab_height">@dimen/dimen_39dp_h</dimen>
+    <dimen name="core_sub_category_tab_padding_bottom">@dimen/dimen_15dp_h</dimen>
+    <dimen name="core_sub_category_tab_indicator_height">4px</dimen>
+
+    <dimen name="more_options_width">225dp</dimen>
+
+<!--    city clock dimen-->
+    <dimen name="clock_size">@dimen/dimen_134dp_h</dimen>
+    <dimen name="amb_circle_dot_border">123dp</dimen>
+    <dimen name="amb_city_name_button">@dimen/dimen_36dp_h</dimen>
+    <dimen name="amb_city_name_button_margin_top">@dimen/dimen_10dp_h</dimen>
+
+    <dimen name="clock_margin_top">@dimen/dimen_10dp_h</dimen>
+    <dimen name="space_between_two_clock">@dimen/dimen_18dp_w</dimen>
+
+    <dimen name="select_photo_item_height">@dimen/dimen_88dp_h</dimen>
+
+    <!--top & bottom button-->
+    <!--top & bottom button-->
+    <dimen name="top_area_back_btn_width">24dp</dimen>
+    <dimen name="top_area_back_btn_height">24dp</dimen>
+    <dimen name="top_area_content_name_font_size">17dp</dimen>
+    <dimen name="bottom_area_font_size">15dp</dimen>
+    <dimen name="bottom_area_icon_width">15dp</dimen>
+    <dimen name="bottom_area_icon_height">15dp</dimen>
+
+    <!-- Sub header  -->
+    <dimen name="ambient_subheader_height">26dp</dimen>
+    <dimen name="ambient_subheader_margin_top">6dp</dimen>
+    <dimen name="ambient_subheader_margin_left">32dp</dimen>
+    <dimen name="ambient_subheader_margin_right">32dp</dimen>
+    <dimen name="set_alarm_subheader_margin_bottom">10dp</dimen>
+    <dimen name="subheader_font_size">14dp</dimen>
+
+    <!-- SelectPhotosFragment -->
+    <dimen name="select_photos_header_height">85dp</dimen>
+    <dimen name="select_photos_header_margin_start">18dp</dimen>
+    <dimen name="select_photos_header_margin_top">12dp</dimen>
+    <dimen name="select_photos_header_margin_bottom">10dp</dimen>
+    <dimen name="select_photos_header_margin_between">9dp</dimen>
+    <dimen name="select_photos_header_icon_bg_height">47dp</dimen>
+    <dimen name="select_photos_header_icon_height">29dp</dimen>
+    <dimen name="select_photos_header_text_bg_height">16dp</dimen>
+    <dimen name="select_photos_spinner_margin_start_end">@dimen/dimen_16dp_w</dimen>
+    <dimen name="select_photos_category_margin_start_end">@dimen/dimen_24dp_w</dimen>
+    <dimen name="select_photos_category_margin_top_bottom">@dimen/dimen_10dp_h</dimen>
+    <!-- Dialog -->
+    <item name="ambient_dialog_width_scale" format="float" type="dimen">1</item>
+</resources>

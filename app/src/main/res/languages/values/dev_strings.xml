@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <!--SID for Development. not translated.-->
+    <!--CORE / REMOTE-->
+    <string name="SID_SERVER_STG">(STG)</string>
+    <string name="SID_SERVER_PROD">(PROD)</string>
+    <string name="SID_CORE_ENABLE_NEW_FIRST_SCREEN">Enable 2020 First Screen</string>
+    <string name="SID_ENABLE_DEBUG_LOG">Enable Debug Log</string>
+    <string name="SID_DISABLE_IME_D2S_MESSAGE">IME: Disable D2S message</string>
+    <string name="SID_DISPLAY_CONNECTION_INFO">Display connection info</string>
+    <string name="schedule_manager">Schedule Manager</string>
+    <string name="SID_DIFFERENT_SERVER">Different server</string>
+
+    <!--FRAME-->
+    <string name="SID_TEST_MEMBERSHIP">Test Membership</string>
+    <string name="SID_TEST_32_INCHES">Test 32 inches</string>
+    <string name="SID_TEST_PORTRAIT">Portrait Mode</string>
+    <string name="SID_TEST_43_INCHES">Test 43 inches</string>
+    <string name="SID_TEST_ROTATION_ACCESSORY_PORTRAIT">Is Portrait</string>
+    <string name="SID_TEST_ROTATION_ACCESSORY">Enable Rotation Accessory Mode</string>
+    <string name="SID_TEST_2022_SERO">Enable 2022 Sero</string>
+    <string name="SID_TEST_21_FEATURE_DEBUG">21 Feature debug</string>
+    <string name="SID_TEST_DUMMY_FOR_21_FRAME">Enable dummy for 21 Frame</string>
+    <string name="SID_TEST_21_FRAME_PORTRAIT">Enable portrait for 21 Frame</string>
+    <string name="SID_TEST_MY_SHELF">Test my shelf</string>
+
+    <!-- D2D -->
+
+    <!-- Ambient -->
+    <string name="SID_AMBIENT_LITE_MODE">Ambient lite mode</string>
+    <string name="SID_AMBIENT_ROUTINE_DETAILS_DESCRIPTION">routine description</string>
+    <string name="SID_AMBIENT_SLIDESHOW_DURATION">Slideshow duration</string>
+
+    <!--Portland-->
+    <string name="SID_PORTLAND_TEMP_ARTWORK_NAME">template_artwork_name</string>
+    <string name="SID_PORTLAND_TEMP_NAME_SUB">template_name_sub</string>
+    <string name="SID_PORTLAND_SLIDESHOW_ORDER">Play slide order</string>
+
+    <!--Development Setting-->
+    <string name="SID_IOT_SERVER_AUTO_SIGN_IN">IoT Server auto sign-in</string>
+
+    <!--Temp. Have to be removed. BL-->
+    <string name="MAPP_SID_AMBIENT_ADJUST_LIGHT_RANGE">!!</string>
+
+    <!--Smart view-->
+    <string name="COM_SID_NON_SMART_VIEW">Smart View</string>
+    <string name="MAPP_SID_CORE_NO_FUNCTION_AVAILABLE">No functions are currently available.</string>
+    <string name="DREAM_SMR_SBODY_VIEW_TV">View TV</string>
+    <string name="DREAM_SMR_SBODY_PLAY_TV_SOUND_ABB">Play TV sound</string>
+    <string name="DREAM_SACE_BUTTON_PLAY_SOUND_FROM_PS_30">Play sound from %1$s</string>
+    <string name="DREAM_SMR_SBODY_MIRROR_SCREEN_ABB">Mirror screen</string>
+    <string name="DREAM_SACE_BUTTON_PLAY_PHONE_SOUND_ON_PS_30">Play phone sound on %1$s</string>
+    <string name="DREAM_SACE_BUTTON_PLAY_TABLET_SOUND_ON_PS_30">Play tablet sound on %1$s</string>
+</resources>

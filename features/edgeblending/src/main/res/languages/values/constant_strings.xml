@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation" >
+    <string name="app_name">TVPlugin V3</string>
+
+    <!--VD DEV SETTING-->
+    <string name="COM_MAPP_SID_SAVE_AND_FINISH">SAVE &amp; FINISH SETTING</string>
+
+    <!--Ambient-->
+    <string name="AMBIENT_PLUS_MARK">+</string>
+    <string name="MAPP_SID_AMBIENT_GMT" translatable="false">GMT %s</string>
+
+    <!--Virtual RC Pad-->
+    <string name="MAPP_SID_REMOTE_0">0</string>
+    <string name="MAPP_SID_REMOTE_1">1</string>
+    <string name="MAPP_SID_REMOTE_2">2</string>
+    <string name="MAPP_SID_REMOTE_3">3</string>
+    <string name="MAPP_SID_REMOTE_4">4</string>
+    <string name="MAPP_SID_REMOTE_5">5</string>
+    <string name="MAPP_SID_REMOTE_6">6</string>
+    <string name="MAPP_SID_REMOTE_7">7</string>
+    <string name="MAPP_SID_REMOTE_8">8</string>
+    <string name="MAPP_SID_REMOTE_9">9</string>
+    <string name="MAPP_SID_REMOTE_MINUS">-</string>
+
+    <!--UG-->
+</resources>

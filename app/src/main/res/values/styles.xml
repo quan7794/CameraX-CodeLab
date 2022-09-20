@@ -1,0 +1,47 @@
+<resources>
+    <style name="ScrollEdgeEffect" parent="android:ThemeOverlay.Material">
+        <item name="android:colorEdgeEffect">@color/COLOR_3695DD</item>
+    </style>
+
+    <style name="FONT_ROBOT_REGULAR_BOLD">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="FONT_ROBOT_MEDIUM">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="FONT_ROBOT_REGULAR">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+
+
+    <style name="TextHeaderTitle" parent="FONT_ROBOT_REGULAR">
+        <item name="android:textColor">@color/FS_HEADER_MAIN_TITLE</item>
+        <item name="android:textSize">@dimen/dimen_18sp</item>
+    </style>
+
+    <style name="EBDialogButtonStyle">
+        <item name="android:fontFamily">sans-serif-regular</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lineSpacingExtra">@dimen/dimen_3dp_h</item>
+        <item name="android:textColor">@color/COLOR_3695DD</item>
+        <item name="android:textSize">@dimen/dimen_15sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="EBBottomButtonTextStyle">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/COLOR_0074D4</item>
+        <item name="android:textSize">@dimen/bottom_area_font_size</item>
+    </style>
+    <style name="EBTextStyle">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/COLOR_0074D4</item>
+        <item name="android:textSize">@dimen/bottom_area_font_size</item>
+    </style>
+</resources>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--city clock dimen-->
+    <dimen name="clock_size">@dimen/dimen_134dp_h</dimen>
+    <dimen name="amb_circle_dot_border">123dp</dimen>
+    <dimen name="amb_city_name_button">@dimen/dimen_36dp_h</dimen>
+    <dimen name="amb_city_name_button_margin_top">@dimen/dimen_10dp_h</dimen>
+
+    <dimen name="clock_margin_top">@dimen/dimen_12dp_h</dimen>
+    <dimen name="space_between_two_clock">@dimen/dimen_20dp_w</dimen>
+
+    <!--screen photo dimen-->
+    <dimen name="screen_photo_acc_land_w">322dp</dimen>
+    <dimen name="screen_photo_acc_land_h">180dp</dimen>
+    <dimen name="screen_photo_acc_port_w">180dp</dimen>
+    <dimen name="screen_photo_acc_port_h">322dp</dimen>
+    <dimen name="screen_photo_acc_area_center_margin">12dp</dimen>
+    <dimen name="ic_preview_rotating">62dp</dimen>
+
+</resources>

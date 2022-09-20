@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.samsung.android.plugin.tv.v3.edgeBlending.ui.selectPhoto.SelectPhotoViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F6F6F6">
+
+        <include
+            android:id="@+id/layout_top_area"
+            layout="@layout/eb_top_title_area"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_header_height"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/spinner_photo_group"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_20dp_h"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/dimen_24dp_w"
+            android:layout_marginTop="@dimen/dimen_10dp_h"
+            android:fontFamily="sans-serif-condensed"
+            android:padding="0dp"
+            android:textColor="#E6252525"
+            android:textSize="@dimen/dimen_13sp"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_top_area" />
+
+        <LinearLayout
+            android:id="@+id/layout_album"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/dimen_24dp_h"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/dimen_20dp_w"
+            android:layout_marginTop="@dimen/dimen_10dp_h"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/dimen_4dp_w"
+            android:paddingTop="@dimen/dimen_4dp_h"
+            android:paddingBottom="@dimen/dimen_4dp_h"
+            android:visibility="visible"
+            android:onClick="@{()->viewModel.onAlbumClick()}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_top_area">
+
+            <TextView
+                android:id="@+id/txt_album_selected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed-light"
+                tools:text="View all (1)"
+                android:textColor="@color/COLOR_E6252525"
+                android:textSize="@dimen/dimen_13sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="@dimen/dimen_10dp_h"
+                android:layout_height="@dimen/dimen_10dp_h"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/dimen_10dp_w"
+                android:layout_marginEnd="@dimen/dimen_10dp_w"
+                android:background="@drawable/ic_drop_down" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txt_photo_desciption"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_2dp_h"
+            android:fontFamily="sans-serif-regular"
+            android:paddingStart="@dimen/dimen_4dp_w"
+            android:text="@string/COM_SID_EB_SELECT_PHOTO_TO_SHOW"
+            android:textColor="#CC252525"
+            android:textSize="@dimen/dimen_12sp"
+            app:layout_constraintStart_toStartOf="@id/layout_album"
+            app:layout_constraintTop_toBottomOf="@id/layout_album" />
+
+        <TextView
+            android:id="@+id/selected_photo_number"
+            android:layout_width="@dimen/dimen_64dp_w"
+            android:layout_height="@dimen/dimen_18dp_h"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/dimen_24dp_w"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="end"
+            android:textColor="#E6252525"
+            android:textSize="@dimen/dimen_13sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/layout_album"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/layout_album" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/grid_photo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/layout_bottom_area"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_photo_desciption" />
+
+        <LinearLayout
+            android:id="@+id/layout_bottom_area"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_56dp_h"
+            android:layout_gravity="bottom"
+            android:gravity="center_vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="gone"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/txt_next"
+                style="@style/EBBottomButtonTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{()-> viewModel.onNextClick()}"
+                android:layout_gravity="center"
+                android:paddingStart="@dimen/dimen_24dp_w"
+                android:paddingEnd="@dimen/dimen_24dp_w"
+                android:text="@string/COM_SID_CORE_CAMAY_NEXT" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

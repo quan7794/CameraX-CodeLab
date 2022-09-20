@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_70dp_h"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/check_area"
+            android:layout_width="@dimen/dimen_68dp_w"
+            android:layout_height="match_parent"
+            android:gravity="center" >
+
+            <ImageView
+                android:id="@+id/checkbox"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:scaleType="fitXY"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/photo"
+            android:layout_width="@dimen/dimen_60dp_w"
+            android:layout_height="@dimen/dimen_60dp_h"
+            android:layout_marginEnd="@dimen/dimen_24dp_w" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_70dp_h"
+            android:layout_marginEnd="@dimen/dimen_24dp_w"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/album_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:textColor="#252525"
+                android:textSize="@dimen/dimen_20sp" />
+
+            <TextView
+                android:id="@+id/photo_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:textColor="#979797"
+                android:textSize="@dimen/dimen_13sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_1dp_h"
+        android:layout_marginStart="@dimen/dimen_82dp_w"
+        android:layout_marginEnd="@dimen/dimen_18dp_w"
+        android:background="#4d000000" />
+</LinearLayout>

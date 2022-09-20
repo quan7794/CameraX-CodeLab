@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="home_fragment_header_height">@dimen/dimen_76dp_h</dimen>
+    <dimen name="home_fragment_header_top_margin">@dimen/dimen_20dp_h</dimen>
+    <dimen name="home_fragment_header_start_margin">@dimen/dimen_20dp_w</dimen>
+    <dimen name="home_fragment_header_end_margin">@dimen/dimen_10dp_w</dimen>
+
+    <dimen name="core_sub_category_tab_height">@dimen/dimen_50dp_h</dimen>
+    <dimen name="core_sub_category_tab_padding_bottom">@dimen/dimen_20dp_h</dimen>
+    <dimen name="core_sub_category_tab_indicator_height">2px</dimen>
+
+</resources>
