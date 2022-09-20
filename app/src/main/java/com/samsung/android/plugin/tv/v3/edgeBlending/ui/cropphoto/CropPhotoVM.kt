@@ -7,12 +7,5 @@ import com.samsung.android.architecture.base.BaseViewModel
 
 
 class CropPhotoVM: BaseViewModel() {
-   private val _uri = MutableLiveData<Uri>()
-
-    val uri: LiveData<Uri>
-        get() = _uri
-
-    fun setUri(uri: Uri?) {
-        _uri.value = uri!!
-    }
+    var uriList = arrayListOf<Uri>()
 }
