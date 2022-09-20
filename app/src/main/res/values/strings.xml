@@ -2,5 +2,10 @@
     <string name="COM_SID_EB_SELECT_PHOTO_TO_SHOW" translatable="false">Select photos to show in Edge Blending</string>
     <string name="COM_SID_EB_MAX_SELECT_PHOTO_HAS_BEEN_SELECT" translatable="false">Maximum number of photos has been selected.</string>
     <string name="COM_SID_EB_MY_PHOTOS" translatable="false">My Photos</string>
+    <string name="COM_SID_EB_FEATURE_NAME" translatable="false">Edge Blending</string>
+    <string name="COM_SID_EB_CONFIGURATION_WHAT_IS" translatable="false">What is Edge Blending?</string>
+    <string name="COM_SID_EB_CONFIGURATION_ENJOY_ULTRA" translatable="false">Enjoy ultra large wide screen experience with two Freestyles.</string>
+    <string name="COM_SID_EB_CONFIGURATION_DONT_SHOW" translatable="false">Do not show again</string>
+    <string name="COM_SID_EB_CONFIGURATION_START" translatable="false">Start</string>
 
 </resources>

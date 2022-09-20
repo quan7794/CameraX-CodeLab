@@ -27,6 +27,8 @@ object Versions {
     const val LIFE_CYCLE = "2.4.1"
     const val NAVIGATION = "2.3.5"
     const val PAGING = "3.1.1"
+    const val DATASTORE = "1.0.0"
+
 
     const val KOIN = "3.2.0"
     const val ANKO = "0.10.5"
@@ -124,7 +126,7 @@ object Libs {
    // const val KOIN_SCOPE = "io.insert-koin:koin-androidx-scope:${Versions.KOIN}"
    // const val KOIN_VIEWMODEL = "io.insert-koin:koin-androidx-viewmodel:${Versions.KOIN}"
     const val KOIN_JAVA = "io.insert-koin:koin-android-compat:${Versions.KOIN}"
-
+    const val DATASTORE = "androidx.datastore:datastore-preferences:${Versions.DATASTORE}"
     const val ANKO = "org.jetbrains.anko:anko:${Versions.ANKO}"
     const val ANKO_COMMONS = "org.jetbrains.anko:anko-commons:${Versions.ANKO}"
 
