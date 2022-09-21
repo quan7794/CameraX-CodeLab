@@ -92,6 +92,7 @@ dependencies {
     //implementation Libs.KOIN_SCOPE
    // implementation Libs.KOIN_VIEWMODEL
 
+    implementation Libs.DATASTORE
 
     //Navigation
     implementation Libs.NAVIGATION_FRAGMENT

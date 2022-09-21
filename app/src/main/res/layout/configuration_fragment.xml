@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <data>
+    <variable
+        name="viewModel"
+        type="com.samsung.android.plugin.tv.v3.edgeBlending.ui.configuraion.ConfigurationViewModel" />
+  </data>
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical"
+    >
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      style="@style/TextHeaderTitle"
+      android:layout_gravity="center_horizontal"
+      android:text="@string/COM_SID_EB_FEATURE_NAME"
+      android:layout_marginTop="@dimen/dimen_37dp_h"
+
+      />
+
+  <ImageView
+      android:layout_width="match_parent"
+      android:background="@color/colorAccent"
+      android:layout_height="@dimen/dimen_228dp_w"
+      android:layout_marginLeft="@dimen/dimen_20dp_w"
+      android:layout_marginRight="@dimen/dimen_20dp_w"
+      android:layout_marginTop="@dimen/dimen_37dp_h"
+      />
+
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      style="@style/TextHeaderSecondTitle"
+      android:layout_gravity="start"
+      android:text="@string/COM_SID_EB_CONFIGURATION_WHAT_IS"
+      android:layout_marginTop="@dimen/dimen_32dp_h"
+      android:layout_marginLeft="@dimen/dimen_20dp_w"
+      />
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      style="@style/TextDescription"
+      android:layout_gravity="start"
+      android:text="@string/COM_SID_EB_CONFIGURATION_ENJOY_ULTRA"
+      android:layout_marginTop="@dimen/dimen_8dp_h"
+      android:layout_marginLeft="@dimen/dimen_20dp_w"
+      />
+
+
+</LinearLayout>
+  <CheckBox
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:button="@drawable/check_box"
+      android:checked="@{viewModel.isChecked()}"
+      android:paddingLeft="@dimen/dimen_8dp_w"
+      android:text="@string/COM_SID_EB_CONFIGURATION_DONT_SHOW"
+      app:layout_constraintStart_toStartOf="parent"
+      android:layout_marginLeft="@dimen/dimen_20dp_w"
+      android:layout_marginBottom="@dimen/dimen_22dp_h"
+      app:layout_constraintBottom_toTopOf="@id/btnStart"
+      android:onCheckedChanged="@{(_, checked) -> viewModel.onCheckedChange(checked)}"
+      />
+
+  <Button
+      style="@style/EBButtonStyle"
+      android:layout_width="@dimen/dimen_216dp_w"
+      android:id="@+id/btnStart"
+      android:gravity="center"
+      android:text="@string/COM_SID_START"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      android:layout_marginBottom="@dimen/dimen_22dp_h"
+      android:onClick="@{()->viewModel.onStartClick()}"
+      />
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
