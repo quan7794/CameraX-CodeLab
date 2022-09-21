@@ -19,17 +19,15 @@ import android.view.ScaleGestureDetector.OnScaleGestureListener
 import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener
 import android.view.ViewConfiguration
 import android.widget.ImageView
-import androidx.core.content.ContentProviderCompat.requireContext
 import com.samsung.android.plugin.tv.v3.edgeBlending.R
 import com.samsung.android.plugin.tv.v3.edgeBlending.ui.cropphoto.cropImageView.model.CropInfo
-import com.samsung.android.plugin.tv.v3.edgeBlending.ui.cropphoto.cropImageView.model.ViewState
 import com.samsung.android.plugin.tv.v3.edgeBlending.ui.cropphoto.cropImageView.util.BitmapLoadUtils.decode
 import com.samsung.android.plugin.tv.v3.edgeBlending.ui.cropphoto.cropImageView.view.graphics.FastBitmapDrawable
 import com.samsung.android.plugin.tv.v3.edgeBlending.ui.cropphoto.cropImageView.view.util.dpToPx
+import com.samsung.android.plugin.tv.v3.edgeBlending.ui.cropphoto.util.FileUtils
 import it.sephiroth.android.library.easing.Cubic
 import it.sephiroth.android.library.easing.Easing
 import java.io.File
-import java.net.URI
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -342,14 +340,8 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
     fun setImageUri(imageUri: Uri) {
-        val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            ImageDecoder.decodeBitmap(ImageDecoder.createSource(context.contentResolver, imageUri))
-        } else {
-            MediaStore.Images.Media.getBitmap(context.contentResolver, imageUri)
-        }
-        setImageBitmap(bitmap)
-        resetDisplay()
-        resetMatrix()
+        val imageFilePath = FileUtils.getPath(context, imageUri)
+        if (imageFilePath != null) setImageFilePath(imageFilePath)
     }
 
     fun setImageFilePath(imageFilePath: String) {
@@ -817,22 +809,6 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
         requestLayout()
     }
 
-    fun saveState(): ViewState {
-        mSuppMatrix.getValues(suppMatrixValues)
-        return ViewState(imageViewMatrix, suppMatrixValues)
-    }
-
-    fun restoreState(viewState: ViewState?) {
-        viewState?: return
-        mBitmapChanged = true
-        mRestoreRequest = true
-        mSuppMatrix = Matrix()
-        mSuppMatrix.setValues(viewState.suppMatrixValues)
-        imageMatrix = viewState.matrix
-        postInvalidate()
-        requestLayout()
-    }
-
     fun setDoubleTapListener(listener: OnImageViewTouchDoubleTapListener?) {
         mDoubleTapListener = listener
     }
@@ -1021,14 +997,13 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
 
     fun setPositionInfo(values: FloatArray) {
         mBitmapChanged = true
+        mRestoreRequest = true
         applyValues(values)
         requestLayout()
     }
 
     private fun applyValues(values: FloatArray) {
-        if (LOG_ENABLED) {
-            Log.i(LOG_TAG, "Matrix updated based on previous position info")
-        }
+        Log.i(LOG_TAG, "Matrix updated based on previous position info")
         mSuppMatrix = Matrix()
         mSuppMatrix.setValues(values)
         imageMatrix = imageViewMatrix

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/FS_CARD_BG" />
+    <corners android:radius="@dimen/dimen_16dp_h" />
+    <stroke android:color="@color/FS_CARD_BG_STROKE" android:width="0.5dp"/>
+</shape>

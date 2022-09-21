@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="item"
+            type="android.net.Uri" />
+
+    </data>
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="@dimen/dimen_70dp_w"
+        android:layout_height="@dimen/dimen_70dp_w"
+        android:layout_marginEnd="@dimen/dimen_8dp_w">
+
+        <ImageView
+            android:id="@+id/photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:srcImageUrl="@{item}"
+            tools:src="@drawable/image3" />
+
+        <ImageView
+            android:id="@+id/selectedLine"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/outline_photo_select_normal" />
+
+    </androidx.cardview.widget.CardView>
+
+</layout>

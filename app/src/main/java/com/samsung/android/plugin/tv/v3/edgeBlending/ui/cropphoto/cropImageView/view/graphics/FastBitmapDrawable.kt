@@ -11,7 +11,7 @@ class FastBitmapDrawable(var bitmap: Bitmap?) : Drawable() {
     protected var mIntrinsicWidth = 0
     protected var mIntrinsicHeight = 0
 
-    constructor(res: Resources?, `is`: InputStream?) : this(BitmapFactory.decodeStream(`is`)) {}
+    constructor(res: Resources?, inputStream: InputStream?) : this(BitmapFactory.decodeStream(inputStream)) {}
 
     override fun draw(canvas: Canvas) {
         if (null != bitmap && !bitmap!!.isRecycled) {

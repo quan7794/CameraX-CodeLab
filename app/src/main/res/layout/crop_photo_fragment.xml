@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="com.samsung.android.plugin.tv.v3.edgeBlending.ui.cropphoto.CropPhotoVM" />
@@ -10,11 +10,68 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#f2f2f2"
-        tools:context=".crop.CropFragment">
+        android:background="#f2f2f2">
+
+        <LinearLayout
+            android:id="@+id/slideShowArea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_12dp_h"
+            android:background="@drawable/eb_card_background"
+            android:orientation="vertical"
+            android:visibility="@{viewModel.slideShowVisibility}"
+            android:paddingHorizontal="@dimen/dimen_20dp_w"
+            app:layout_constraintBottom_toTopOf="@id/cropViewArea"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_16dp_h"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/FONT_ROBOT_REGULAR"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="10"
+                    android:text="Make a slideshow"
+                    android:textColor="@color/COLOR_BLACK"
+                    android:textSize="@dimen/dimen_14sp"
+                    tools:ignore="SpUsage" />
+
+                <ImageView
+                    android:layout_width="@dimen/dimen_24dp_w"
+                    android:layout_height="@dimen/dimen_24dp_w"
+                    android:id="@+id/btnSlideShowSetting"
+                    android:layout_marginStart="@dimen/dimen_12dp_w"
+                    android:onClick="@{()->viewModel.onClick(btnSlideShowSetting)}"
+                    android:src="@drawable/fs_ic_setting_slideshow" />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/myPhotoDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_8dp_h"
+                android:text="Set the order of slideshow in Edge Blendeing. Select a photo to edit to fit Edge Blended screen." />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/selectedPhotos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_16dp_h"
+                android:layout_marginBottom="@dimen/dimen_20dp_h"
+                android:paddingStart="0dp"
+                android:paddingEnd="-8dp"
+                android:orientation="horizontal"
+                tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_simple_photo" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/descriptionText"
@@ -27,21 +84,21 @@
             android:textColor="@color/COLOR_BLACK"
             app:layout_constraintBottom_toTopOf="@id/cropViewArea"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_marginBottom="-100dp" />
 
         <FrameLayout
             android:id="@+id/cropViewArea"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:elevation="1dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintBottom_toTopOf="@+id/btnViewOnTv"
+            app:layout_constraintTop_toBottomOf="@id/slideShowArea">
 
             <com.samsung.android.plugin.tv.v3.edgeBlending.ui.cropphoto.cropImageView.view.ImageCropView
                 android:id="@+id/cropView"
                 android:layout_width="match_parent"
-                android:layout_height="500dp"
-                android:src="#A18C8C"
+                android:layout_height="match_parent"
                 app:gridInnerColor="#66ffffff"
                 app:gridInnerStroke="1dp"
                 app:gridOuterColor="#ffffff"
@@ -50,7 +107,8 @@
                 app:outsideLayerColorWhenMoving="#4DF2F2F2"
                 app:setInnerGridMode="on"
                 app:setOuterGridMode="on"
-                tools:layout_editor_absoluteX="12dp" />
+                tools:src="@drawable/image3"
+                tools:alpha="0.7"/>
         </FrameLayout>
 
         <LinearLayout
@@ -60,7 +118,8 @@
             android:elevation="10dp"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/cropViewArea">
+            app:layout_constraintTop_toBottomOf="@id/cropViewArea"
+            tools:layout_marginTop="-100dp">
 
             <Button
                 android:id="@+id/btnCrop"
@@ -68,8 +127,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/effect_image_button_with_round"
                 android:foreground="@drawable/raised_button_bg"
-                android:paddingHorizontal="12dp"
-                android:text="Crop &amp; Save"
+                android:onClick="@{ () -> viewModel.onClick(btnCrop)}"
+                android:text="Crop"
                 android:textColor="@color/COLOR_BLACK" />
 
             <Button
@@ -78,28 +137,27 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/effect_image_button_with_round"
                 android:foreground="@drawable/raised_button_bg"
+                android:onClick="@{ () -> cropView.resetMatrix()}"
                 android:text="Reset"
                 android:textColor="@color/COLOR_BLACK" />
 
-            <Button
-                android:id="@+id/btnNextImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/effect_image_button_with_round"
-                android:foreground="@drawable/raised_button_bg"
-                android:text="Next"
-                android:textColor="@color/COLOR_BLACK" />
-
-            <Button
-                android:id="@+id/btnBackImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/effect_image_button_with_round"
-                android:foreground="@drawable/raised_button_bg"
-                android:text="Back"
-                android:textColor="@color/COLOR_BLACK" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/btnViewOnTv"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_56dp_h"
+            android:background="@color/COLOR_F2F2F2"
+            android:gravity="center"
+            android:onClick="@{() -> viewModel.onClick(btnViewOnTv)}"
+            android:text="@string/MAPP_SID_LUXO_CBAUG_VIEW_ON_PJT"
+            android:textColor="#E6252525"
+            android:textSize="@dimen/dimen_17sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="SpUsage" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
