@@ -8,12 +8,13 @@ import com.samsung.android.architecture.library.pickimage.data.GalleryRepository
 import com.samsung.android.architecture.library.pickimage.util.GalleryUriManager
 import com.samsung.android.plugin.tv.v3.edgeBlending.R
 import com.samsung.android.plugin.tv.v3.edgeBlending.ui.selectPhoto.model.PhotoModel
+import com.samsung.android.plugin.tv.v3.edgeBlending.ui.viewmodel.NavigateUpViewModel
 import kotlinx.coroutines.*
 import kotlin.collections.ArrayList
 
 class SelectPhotoViewModel(
     private val pickImageRepository: GalleryRepository
-) : BaseViewModel() {
+) : NavigateUpViewModel() {
     private var selectedImageList: List<PhotoModel.Data> = ArrayList()
     lateinit var allPhotos: ArrayList<PhotoModel.Data>
     private val albumList: MutableList<GalleryAlbums> = ArrayList()
@@ -89,6 +90,10 @@ class SelectPhotoViewModel(
 
     fun onAlbumClick() {
         _clickEvent.value = SelectPhotoState.AlbumClick
+    }
+
+    override fun onBackClick() {
+        super.onBackClick()
     }
 
     override fun onDestroyView() {

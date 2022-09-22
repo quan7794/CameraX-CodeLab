@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_marginTop="@dimen/dimen_48dp_h"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:layout_margin="@dimen/dimen_24dp_h"
+        android:textSize="@dimen/dimen_13dp_h"
+        android:textColor="@color/white"
+        android:text="@string/COM_SID_EB_CONFIGURATION_PRESS_THE_BLEND_BUTTON"
+        />
+
+</FrameLayout>
+
+</layout>

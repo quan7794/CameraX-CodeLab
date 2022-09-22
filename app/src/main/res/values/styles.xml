@@ -22,7 +22,7 @@
 
     <style name="TextHeaderTitle" parent="FONT_ROBOT_REGULAR">
         <item name="android:textColor">@color/FS_HEADER_MAIN_TITLE</item>
-        <item name="android:textSize">@dimen/dimen_32sp</item>
+        <item name="android:textSize">@dimen/dimen_18dp_h</item>
     </style>
 
     <style name="TextHeaderSecondTitle" parent="FONT_ROBOT_MEDIUM">

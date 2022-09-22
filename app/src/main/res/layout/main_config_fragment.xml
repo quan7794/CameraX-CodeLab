@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="config"
+            type="com.samsung.android.plugin.tv.v3.edgeBlending.ui.configuration.mainconfig.ConfigModel" />
+        <variable
+            name="viewModel"
+            type="com.samsung.android.plugin.tv.v3.edgeBlending.ui.configuration.mainconfig.MainConfigViewModel" />
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fffafafa"
+    >
+
+    <LinearLayout
+        android:id="@+id/linHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:id="@+id/viewPagerIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_alignBottom="@+id/view_pager"
+            android:layout_marginTop="8dp"
+            android:gravity="center">
+
+            <LinearLayout
+                android:id="@+id/viewPagerCountDots"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="13dp"
+                android:layout_marginRight="13dp"
+                android:gravity="center"
+
+                android:orientation="horizontal" />
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txtHeader"
+            style="@style/TextHeaderTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/viewPagerCountDots"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/dimen_24dp_h"
+            android:gravity="center_horizontal"
+            android:text="@{config.headerTitle}"
+            tools:text="@string/COM_SID_EB_CONFIGURATION_MAIN_HEADER" />
+
+
+    </LinearLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linHeader"
+        app:layout_constraintBottom_toTopOf="@id/linBottom"
+        />
+
+    <LinearLayout
+        android:id="@+id/linBottom"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dimen_100dp_h"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="@dimen/dimen_160dp_w"
+            android:layout_height="@dimen/dimen_56dp_h"
+            android:layout_marginLeft="@dimen/dimen_24dp_w"
+            android:gravity="center_vertical"
+            android:textColor="@color/COLOR_3695DD"
+            android:textSize="@dimen/dimen_15dp_h"
+            android:layout_gravity="left|bottom"
+            android:textStyle="bold"
+            android:text="@{config.buttonLeftTitle}"
+            android:onClick="@{()->viewModel.onPreviousClick(context)}"
+            tools:text="@string/COM_SID_EB_CONFIGURATION_PREVIOUS" />
+
+        <TextView
+            android:layout_width="@dimen/dimen_160dp_w"
+            android:layout_height="@dimen/dimen_56dp_h"
+            android:layout_gravity="right|bottom"
+            android:layout_marginRight="@dimen/dimen_24dp_w"
+            android:gravity="center_vertical|right"
+            android:textColor="@color/COLOR_3695DD"
+            android:textSize="@dimen/dimen_15dp_h"
+            android:textStyle="bold"
+            android:text="@{config.buttonRightTitle}"
+            android:onClick="@{()->viewModel.onNextClick(context)}"
+            tools:text="@string/COM_SID_EB_CONFIGURATION_NEXT" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
