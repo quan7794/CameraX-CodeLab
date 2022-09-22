@@ -12,13 +12,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.samsung.android.architecture.base.BaseVmDbFragment
 
 import com.samsung.android.architecture.ext.*
-import com.samsung.android.architecture.library.pickimage.GalleryConfiguration
 import com.samsung.android.architecture.library.pickimage.data.GalleryRepositoryImpl
-import com.samsung.android.architecture.library.pickimage.util.GalleryUriManager
 import com.samsung.android.plugin.tv.v3.edgeBlending.R
 import com.samsung.android.plugin.tv.v3.edgeBlending.adapter.GalleryAdapter
 import com.samsung.android.plugin.tv.v3.edgeBlending.databinding.SelectPhotoFragmentBinding
-import com.samsung.android.plugin.tv.v3.edgeBlending.ui.cropphoto.CropPhotoFragment
+import com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.EditPhotoFragment
 import com.samsung.android.plugin.tv.v3.edgeBlending.ui.selectPhoto.model.PhotoModel
 import com.samsung.android.plugin.tv.v3.edgeBlending.util.*
 import com.samsung.android.plugin.tv.v3.edgeBlending.util.PermissionUtil.Companion.PERMISSION_REQUEST_READ_EXTERNAL_STORAGE
@@ -158,7 +156,7 @@ class SelectPhotoFragment : BaseVmDbFragment<SelectPhotoFragmentBinding, SelectP
             observe(clickEvent){
                 when(it) {
                     is SelectPhotoState.GotoCropPhotoScreen -> {
-                        replaceFragment(CropPhotoFragment.newInstance(it.uris),R.id.container,CropPhotoFragment.TAG)
+                        replaceFragment(EditPhotoFragment.newInstance(it.uris),R.id.container,EditPhotoFragment.TAG)
                     }
                     is SelectPhotoState.AlbumClick -> {
                         binding.spinnerPhotoGroup.performClick()
@@ -191,7 +189,7 @@ class SelectPhotoFragment : BaseVmDbFragment<SelectPhotoFragmentBinding, SelectP
     companion object {
         val Tag: String by getTagName()
         private const val DROPDOWN_HORIZONTAL_OFFSET = 16
-        val MAX_SELECTED_PHOTO = 5
+        val MAX_SELECTED_PHOTO = 50
         val KEY_URI = "URI"
     }
 

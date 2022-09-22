@@ -1,4 +1,4 @@
-package com.samsung.android.plugin.tv.v3.edgeBlending.ui.cropphoto.cropImageView.view.graphics
+package com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.cropImageView.view.graphics
 
 import android.content.res.Resources
 import android.graphics.*

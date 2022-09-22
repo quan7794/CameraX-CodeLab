@@ -74,7 +74,6 @@ dependencies {
 
     implementation Libs.KOTLIN_JDK_7
     implementation Libs.KOTLIN_REFLECT
-    implementation Libs.KOTLIN_COROUTINES_ANDROID
     implementation Libs.ANDROID_APPCOMPAT
     implementation Libs.ANDROID_RECYCLE_VIEW
     implementation Libs.ANDROID_MATERIAL
@@ -110,7 +109,13 @@ dependencies {
         transitive = false
     }
 
-    //CropImage
+    // Coroutine
+    implementation Libs.KOTLIN_COROUTINES_ANDROID
+    implementation(Libs.LIFECYCLE_VIEWMODEL_KTX)
+    implementation(Libs.LIFECYCLE_RUNTIME_KTX)
+    implementation(Libs.LIFECYCLE_LIVEDATA_KTX)
+
+    // CropImage
     implementation "it.sephiroth.android.library.easing:android-easing:1.0.3"
 
     kapt Libs.GLIDE_COMPILER

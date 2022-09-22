@@ -2,10 +2,12 @@
 <layout xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
-            name="viewModel"
-            type="com.samsung.android.plugin.tv.v3.edgeBlending.ui.cropphoto.CropPhotoVM" />
+            name="vm"
+            type="com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.EditPhotoViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -21,8 +23,8 @@
             android:layout_marginTop="@dimen/dimen_12dp_h"
             android:background="@drawable/eb_card_background"
             android:orientation="vertical"
-            android:visibility="@{viewModel.slideShowVisibility}"
             android:paddingHorizontal="@dimen/dimen_20dp_w"
+            android:visibility="@{vm.slideShowVisibility}"
             app:layout_constraintBottom_toTopOf="@id/cropViewArea"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -44,11 +46,11 @@
                     tools:ignore="SpUsage" />
 
                 <ImageView
+                    android:id="@+id/btnSlideShowSetting"
                     android:layout_width="@dimen/dimen_24dp_w"
                     android:layout_height="@dimen/dimen_24dp_w"
-                    android:id="@+id/btnSlideShowSetting"
                     android:layout_marginStart="@dimen/dimen_12dp_w"
-                    android:onClick="@{()->viewModel.onClick(btnSlideShowSetting)}"
+                    android:onClick="@{()->vm.onClick(btnSlideShowSetting)}"
                     android:src="@drawable/fs_ic_setting_slideshow" />
             </LinearLayout>
 
@@ -66,9 +68,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_16dp_h"
                 android:layout_marginBottom="@dimen/dimen_20dp_h"
+                android:orientation="horizontal"
                 android:paddingStart="0dp"
                 android:paddingEnd="-8dp"
-                android:orientation="horizontal"
                 tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_simple_photo" />
         </LinearLayout>
@@ -95,7 +97,7 @@
             app:layout_constraintBottom_toTopOf="@+id/btnViewOnTv"
             app:layout_constraintTop_toBottomOf="@id/slideShowArea">
 
-            <com.samsung.android.plugin.tv.v3.edgeBlending.ui.cropphoto.cropImageView.view.ImageCropView
+            <com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.cropImageView.view.ImageCropView
                 android:id="@+id/cropView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -107,8 +109,8 @@
                 app:outsideLayerColorWhenMoving="#4DF2F2F2"
                 app:setInnerGridMode="on"
                 app:setOuterGridMode="on"
-                tools:src="@drawable/image3"
-                tools:alpha="0.7"/>
+                tools:alpha="0.7"
+                tools:src="@drawable/image3" />
         </FrameLayout>
 
         <LinearLayout
@@ -127,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/effect_image_button_with_round"
                 android:foreground="@drawable/raised_button_bg"
-                android:onClick="@{ () -> viewModel.onClick(btnCrop)}"
+                android:onClick="@{ () -> vm.onClick(btnCrop)}"
                 android:text="Crop"
                 android:textColor="@color/COLOR_BLACK" />
 
@@ -149,7 +151,7 @@
             android:layout_height="@dimen/dimen_56dp_h"
             android:background="@color/COLOR_F2F2F2"
             android:gravity="center"
-            android:onClick="@{() -> viewModel.onClick(btnViewOnTv)}"
+            android:onClick="@{() -> vm.onClick(btnViewOnTv)}"
             android:text="@string/MAPP_SID_LUXO_CBAUG_VIEW_ON_PJT"
             android:textColor="#E6252525"
             android:textSize="@dimen/dimen_17sp"

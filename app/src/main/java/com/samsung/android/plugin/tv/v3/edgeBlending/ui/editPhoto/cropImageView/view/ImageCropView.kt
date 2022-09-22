@@ -1,14 +1,12 @@
-package com.samsung.android.plugin.tv.v3.edgeBlending.ui.cropphoto.cropImageView.view
+package com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.cropImageView.view
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.os.Build
 import android.os.Handler
 import android.os.Looper
-import android.provider.MediaStore
 import android.util.AttributeSet
 import android.util.Log
 import android.view.GestureDetector
@@ -20,11 +18,11 @@ import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener
 import android.view.ViewConfiguration
 import android.widget.ImageView
 import com.samsung.android.plugin.tv.v3.edgeBlending.R
-import com.samsung.android.plugin.tv.v3.edgeBlending.ui.cropphoto.cropImageView.model.CropInfo
-import com.samsung.android.plugin.tv.v3.edgeBlending.ui.cropphoto.cropImageView.util.BitmapLoadUtils.decode
-import com.samsung.android.plugin.tv.v3.edgeBlending.ui.cropphoto.cropImageView.view.graphics.FastBitmapDrawable
-import com.samsung.android.plugin.tv.v3.edgeBlending.ui.cropphoto.cropImageView.view.util.dpToPx
-import com.samsung.android.plugin.tv.v3.edgeBlending.ui.cropphoto.util.FileUtils
+import com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.cropImageView.model.CropInfo
+import com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.cropImageView.util.BitmapLoadUtils.decode
+import com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.cropImageView.util.dpToPx
+import com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.cropImageView.view.graphics.FastBitmapDrawable
+import com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.util.FileUtils
 import it.sephiroth.android.library.easing.Cubic
 import it.sephiroth.android.library.easing.Easing
 import java.io.File
@@ -149,8 +147,8 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        Log.d("onDraw", "Entry")
-        drawTransparentLayer(canvas) //todo: draw 30% when gesture, 100% when finger up.
+        if (LOG_ENABLED) Log.d("onDraw", "Entry")
+        drawTransparentLayer(canvas)
         drawGrid(canvas)
     }
 
@@ -275,6 +273,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
     private fun drawTransparentLayer(canvas: Canvas) {
+        //draw 30% when gesture, 100% when finger up.
         /*-
           -------------------------------------
           |                top                |
@@ -554,7 +553,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
     protected fun center(horizontal: Boolean, vertical: Boolean) {
-        Log.d("center()", "___________________________")
+        if (LOG_ENABLED) Log.d("center()", "___________________________")
         if (drawable == null) return
         val rect = getCenter(mSuppMatrix, horizontal, vertical)
         if (rect.left != 0f || rect.top != 0f) {
@@ -629,12 +628,12 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
         if (LOG_ENABLED) {
             Log.d(LOG_TAG, "sanitized scale: $scale")
         }
-        val center = center
+//        val center = center
         zoomTo(scale, center.x, center.y)
     }
 
     fun zoomTo(scale: Float, durationMs: Float) {
-        val center = center
+//        val center = center
         zoomTo(scale, center.x, center.y, durationMs)
     }
 
@@ -734,7 +733,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
         val deltaScale = scale - oldScale
         val m = Matrix(mSuppMatrix)
         m.postScale(scale, scale, centerX, centerY)
-        val rect = getCenter(m, true, true)
+        val rect = getCenter(m, horizontal = true, vertical = true)
         val destX = centerX + rect.left * scale
         val destY = centerY + rect.top * scale
         mHandler.post(
@@ -747,41 +746,30 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
                     if (currentMs < durationMs) mHandler.post(this)
                     else {
                         onZoomAnimationCompleted(scale)
-                        center(true, true)
+                        center(horizontal = true, vertical = true)
                     }
                 }
             }
         )
     }
 
-    val croppedImage: Bitmap?
-        get() {
-            val cropInfo = cropInfo ?: return null
-            var bitmap: Bitmap?
-            if (imageFilePath != null) {
-                bitmap = cropInfo.getCroppedImage(imageFilePath)
-            } else {
-                bitmap = viewBitmap
-                if (bitmap != null) bitmap = cropInfo.getCroppedImage(bitmap)
-            }
-            return bitmap
-        }
-    val cropInfo: CropInfo?
-        get() {
-            val viewBitmap = viewBitmap ?: return null
-            val scale = baseScale * scale
-            val viewImageRect = bitmapRect
-            return CropInfo(scale, viewBitmap.width.toFloat(), viewImageRect!!.top, viewImageRect.left, mCropRect.top, mCropRect.left, mCropRect.width(), mCropRect.height())
-        }
+    fun getCroppedImage(): Bitmap? {
+        val cropInfo = getCropInfo() ?: return null
+        return if (imageFilePath != null) cropInfo.getCroppedImage(imageFilePath)
+        else viewBitmap?.let { viewBitmap -> cropInfo.getCroppedImage(viewBitmap) }
+    }
+
+    fun getCropInfo(): CropInfo? {
+        val viewBitmap = viewBitmap ?: return null
+        val scale = baseScale * scale
+        val viewImageRect = bitmapRect
+        return CropInfo(scale, viewBitmap.width.toFloat(), viewImageRect!!.top, viewImageRect.left, mCropRect.top, mCropRect.left, mCropRect.width(), mCropRect.height())
+    }
+
     val viewBitmap: Bitmap?
         get() {
-            val drawable = drawable
-            return if (drawable != null) {
-                (drawable as FastBitmapDrawable).bitmap
-            } else {
-                Log.e(LOG_TAG, "drawable is null")
-                null
-            }
+            val draw = drawable
+            return if (draw != null) (draw as FastBitmapDrawable).bitmap else null.also { Log.e(LOG_TAG, "drawable is null") }
         }
 
     fun setGridInnerMode(gridInnerMode: Int) {
@@ -794,9 +782,9 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
         invalidate()
     }
 
-    fun setGridMargin(topBottom: Int, startEnd: Int) {
-        gridTopBottomMargin = dpToPx(topBottom).toFloat()
-        gridLeftRightMargin = dpToPx(startEnd).toFloat()
+    fun setCropViewMargin(vertical: Int = 0, horizontal: Int = 0) {
+        gridTopBottomMargin = dpToPx(vertical).toFloat()
+        gridLeftRightMargin = dpToPx(horizontal).toFloat()
     }
 
     fun setGridLeftRightMargin(marginDP: Int) {

@@ -1,4 +1,4 @@
-package com.samsung.android.plugin.tv.v3.edgeBlending.ui.cropphoto.util
+package com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.util
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.util.Utils.Companion.EB_CACHE_DIR
+import com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.util.Utils.Companion.EB_IMAGE_FORMAT
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -13,6 +15,8 @@ import java.io.IOException
 
 class Utils {
     companion object {
+        const val EB_CACHE_DIR = "/EbImage/"
+        const val EB_IMAGE_FORMAT = ".jpg"
         fun saveImage(bitmap: Bitmap?, directory: File, fileName: String): Boolean {
             bitmap ?: return false
             val file = File(directory, "$fileName.jpg")
@@ -40,7 +44,7 @@ class Utils {
     }
 }
 
-fun Context.getCacheImage(no: Int) = "${cacheDir}/EbImage/image$no.jpg"
+fun Context.getEbCacheImage(name: String) = "${cacheDir}$EB_CACHE_DIR$name$EB_IMAGE_FORMAT"
 
 inline fun View.waitForLayout(crossinline action: () -> Unit) {
     viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {

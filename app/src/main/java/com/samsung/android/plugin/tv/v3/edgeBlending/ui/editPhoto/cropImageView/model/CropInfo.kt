@@ -1,10 +1,12 @@
-package com.samsung.android.plugin.tv.v3.edgeBlending.ui.cropphoto.cropImageView.model
+package com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.cropImageView.model
 
 import android.graphics.Bitmap
-import com.samsung.android.plugin.tv.v3.edgeBlending.ui.cropphoto.cropImageView.util.BitmapLoadUtils
+import com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.cropImageView.util.BitmapLoadUtils
+import java.lang.Math.floorDiv
 import kotlin.math.abs
+import kotlin.math.floor
 
-class CropInfo(
+data class CropInfo(
     val scale: Float,
     val viewBitmapWidth: Float,
     val viewImageTop: Float,

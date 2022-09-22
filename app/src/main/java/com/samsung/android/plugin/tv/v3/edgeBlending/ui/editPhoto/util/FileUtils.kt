@@ -1,6 +1,5 @@
-package com.samsung.android.plugin.tv.v3.edgeBlending.ui.cropphoto.util
+package com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.util
 
-import android.annotation.SuppressLint
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.content.ContentUris

@@ -1,4 +1,4 @@
-package com.samsung.android.plugin.tv.v3.edgeBlending.ui.cropphoto.cropImageView.util
+package com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.cropImageView.util
 
 import android.opengl.GLES20
 import javax.microedition.khronos.egl.*

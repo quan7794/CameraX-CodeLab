@@ -1,4 +1,4 @@
-package com.samsung.android.plugin.tv.v3.edgeBlending.ui.cropphoto.cropImageView.util
+package com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.cropImageView.util
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
