@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="device"
+            type="com.samsung.android.plugin.tv.v3.edgeBlending.domain.model.EbDevice" />
+
+        <variable
+            name="viewModel"
+            type="com.samsung.android.plugin.tv.v3.edgeBlending.ui.configuration.connectdevice.ConnectDeviceViewModel" />
+    </data>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtAppName"
+            style="@style/TextDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_8dp_h"
+            android:gravity="center"
+            android:text="@string/COM_SID_EB_CONFIGURATION_BLENDING_DEVICE"
+            android:textSize="@dimen/dimen_13dp_h"
+           />
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_28dp_h"
+            android:text="@string/COM_SID_EB_CONFIGURATION_BLENDING_DEVICE"
+            android:textColor="@color/COLOR_FF909090"
+            android:textSize="@dimen/dimen_13dp_h"
+            android:layout_marginLeft="@dimen/dimen_24dp_w"
+            android:textStyle="bold"
+          />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_cardview_white"
+            android:layout_marginTop="@dimen/dimen_8dp_h"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/dimen_2dp_w"
+            android:layout_marginRight="@dimen/dimen_2dp_w"
+            android:padding="@dimen/dimen_16dp_w"
+            >
+
+
+            <ImageView
+                android:id="@+id/imgDevice"
+                android:layout_width="@dimen/dimen_36dp_h"
+                android:layout_height="@dimen/dimen_36dp_h"
+                android:background="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="@id/txtDescription"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/txtDeviceName"
+
+                />
+
+            <TextView
+                android:id="@+id/txtDeviceName"
+                goneUnless="@{device!=null}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen_8dp_w"
+                android:layout_marginTop="@dimen/dimen_16dp_h"
+                android:text="@{device.name}"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/dimen_17dp_h"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imgDevice"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="FreeStyle B" />
+
+            <TextView
+                android:id="@+id/txtDescription"
+                style="@style/TextDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dimen_8dp_w"
+                android:layout_marginTop="@dimen/dimen_2dp_h"
+                android:paddingRight="@dimen/dimen_20dp_w"
+                android:text="@string/COM_SID_EB_CONFIGURATION_SELECT_ANOTHER_DEVICE"
+                android:textColor="@color/COLOR_FF909090"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imgDevice"
+                app:layout_constraintTop_toBottomOf="@id/txtDeviceName" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/COLOR_TRANSPARENT"
+                android:onClick="@{()->viewModel.onSelectDevice()}"
+                app:layout_constraintBottom_toBottomOf="@id/txtDescription"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/txtDeviceName" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</layout>

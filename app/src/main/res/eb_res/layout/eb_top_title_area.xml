@@ -2,17 +2,23 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.samsung.android.plugin.tv.v3.edgeBlending.ui.viewmodel.NavigateUpViewModel" />
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/COLOR_F2F2F2"
+        android:layout_height="wrap_content"
         android:visibility="gone"
+        tools:visibility="visible"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="@dimen/main_header_height"
             android:layout_height="@dimen/main_header_height"
+            android:onClick="@{()->viewModel.onBackClick()}"
             android:gravity="center_horizontal|center_vertical">
 
             <ImageView
@@ -20,6 +26,8 @@
                 android:layout_width="@dimen/top_area_back_btn_width"
                 android:layout_height="@dimen/top_area_back_btn_height"
                 android:clickable="true"
+                android:onClick="@{()->viewModel.onBackClick()}"
+                android:background="@drawable/ic_title_back"
                 android:focusable="true" />
         </LinearLayout>
 

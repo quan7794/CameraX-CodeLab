@@ -137,7 +137,7 @@ object Libs {
     const val RX_ANDROID = "io.reactivex.rxjava2:rxandroid:${Versions.RX_ANDROID}"
 
     const val ROOM_RUNTIME = "androidx.room:room-runtime:${Versions.ROOM}"
-    const val ROOM_RXJAVA = "androidx.room:room-rxjava2:${Versions.ROOM}"
+    const val ROOM_KTX = "androidx.room:room-ktx:${Versions.ROOM}"
     const val ROOM_COMPILER = "androidx.room:room-compiler:${Versions.ROOM}"
 
     const val RETROFIT = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT}"

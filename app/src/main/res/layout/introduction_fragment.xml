@@ -5,7 +5,7 @@
   <data>
     <variable
         name="viewModel"
-        type="com.samsung.android.plugin.tv.v3.edgeBlending.ui.configuraion.ConfigurationViewModel" />
+        type="com.samsung.android.plugin.tv.v3.edgeBlending.ui.configuration.introduction.IntroductionViewModel" />
   </data>
 
   <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,6 +17,15 @@
 
     android:orientation="vertical"
     >
+  <include
+      android:id="@+id/iclEbTop"
+      layout="@layout/eb_top_title_area"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:ViewModel="@{viewModel}"
+      />
   <TextView
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"

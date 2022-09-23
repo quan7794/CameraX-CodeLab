@@ -7,5 +7,24 @@
     <string name="COM_SID_EB_CONFIGURATION_ENJOY_ULTRA" translatable="false">Enjoy ultra large wide screen experience with two Freestyles.</string>
     <string name="COM_SID_EB_CONFIGURATION_DONT_SHOW" translatable="false">Do not show again</string>
     <string name="COM_SID_EB_CONFIGURATION_START" translatable="false">Start</string>
-
+    <string name="COM_SID_EB_CONFIGURATION_MAIN_HEADER" translatable="false">Configuration Guide of \n Edge Blending</string>
+    <string name="COM_SID_EB_CONFIGURATION_RETAKE" translatable="false">Retake</string>
+    <string name="COM_SID_EB_CONFIGURATION_CONFIRM" translatable="false">Confirm</string>
+    <string name="COM_SID_EB_CONFIGURATION_BLEND" translatable="false">Blend</string>
+    <string name="COM_SID_EB_CONFIGURATION_CANCEL" translatable="false">Cancel</string>
+    <string name="COM_SID_EB_CONFIGURATION_NEXT" translatable="false">Next</string>
+    <string name="COM_SID_EB_CONFIGURATION_PREVIOUS" translatable="false">Previous</string>
+    <string name="COM_SID_EB_CONFIGURATION_MAIN_DESCRIPTION" translatable="false">One additional Freestyle is required to use Edge Blending \n\nTwo Freestyles need to be connected to the same Wi-Fi network as the current device.\n\nEdge Blending is best-performed when two screens have same size on the white background.</string>
+    <string name="COM_SID_EB_CONFIGURATION_STEP_ONE_HEADER" translatable="false">Configuration Guide of \n Edge Blending</string>
+    <string name="COM_SID_EB_CONFIGURATION_STEP_TWO_HEADER" translatable="false">Choose the Freestyle to connect</string>
+    <string name="COM_SID_EB_CONFIGURATION_STEP_THREE_HEADER" translatable="false">Configuration Guide of \n Edge Blending</string>
+    <string name="COM_SID_EB_CONFIGURATION_STEP_FIVE_HEADER" translatable="false">Confirm Blending Area</string>
+    <string name="COM_SID_EB_CONFIGURATION_CONNECT_TWO_DEVICE" translatable="false">Connect two Freestyle to %1$s</string>
+    <string name="COM_SID_EB_CONFIGURATION_STEP_THREE_DESCRIPTION" translatable="false">One additional Freestyle is required to use Edge Blending \n\nTwo Freestyles need to be connected to the same Wi-Fi network as the current device.\n\nEdge Blending is best-performed when two screens have same size on the white background.</string>
+    <string name="COM_SID_EB_CONFIGURATION_BLENDING_DEVICE" translatable="false">Edge Blending Device</string>
+    <string name="COM_SID_EB_CONFIGURATION_SELECT_ANOTHER_DEVICE" translatable="false">Select the another Freestyle to perform Edge Blending</string>
+    <string name="COM_SID_EB_CONFIGURATION_PRESS_THE_BLEND_BUTTON" translatable="false">Press the Blend button when eight markers properly appear in the camera.</string>
+    <string name="COM_SID_EB_CONFIGURATION_BLENDING_PLACE_AND_ADJUST" translatable="false">Place and adjust two Freestyles to overlap the screen and show eight markers properly.</string>
+    <string name="COM_SID_EB_CONFIGURATION_MAKE_BLENDING_AREA" translatable="false">Make Blending Area</string>
+    <string name="COM_SID_EB_CONFIGURATION_CONFIRM_BLENDING_AREA" translatable="false">Confirm Blending Area</string>
 </resources>

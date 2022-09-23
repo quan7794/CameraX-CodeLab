@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.samsung.android.plugin.tv.v3.edgeBlending.ui.configuration.searchdevice.SearchDeviceViewModel" />
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="@dimen/dimen_5dp_w"
+    android:background="@color/COLOR_TRANSPARENT"
+    >
+    <include
+        android:id="@+id/iclEbTop"
+        layout="@layout/eb_top_title_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:ViewModel="@{viewModel}"
+        />
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_46dp_h"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_edt_rounded_gray"
+        app:layout_constraintTop_toBottomOf="@id/iclEbTop"
+        app:queryBackground="@null"
+         />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rclDevice"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_cardview_white"
+        android:layout_marginTop="@dimen/dimen_16dp_h"
+        app:layout_constraintTop_toBottomOf="@id/searchView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/linBottom"
+
+        />
+    <LinearLayout
+        android:id="@+id/linBottom"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dimen_100dp_h"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        >
+
+        <TextView
+            android:layout_width="@dimen/dimen_160dp_w"
+            android:layout_height="@dimen/dimen_56dp_h"
+            android:layout_marginLeft="@dimen/dimen_24dp_w"
+            android:gravity="center_vertical"
+            android:textColor="@color/COLOR_3695DD"
+            android:textSize="@dimen/dimen_15dp_h"
+            android:layout_gravity="left|bottom"
+            android:textStyle="bold"
+            android:text="@string/COM_SID_EB_CONFIGURATION_PREVIOUS"
+            android:layout_marginRight="@dimen/dimen_4dp_w"
+            android:onClick="@{()->viewModel.onPreviousClick()}"
+            />
+
+        <TextView
+            android:layout_width="@dimen/dimen_160dp_w"
+            android:layout_height="@dimen/dimen_56dp_h"
+            android:layout_gravity="right|bottom"
+            android:layout_marginRight="@dimen/dimen_24dp_w"
+            android:gravity="center_vertical|right"
+            android:textColor="@color/COLOR_3695DD"
+            android:textSize="@dimen/dimen_15dp_h"
+            android:textStyle="bold"
+            android:text="@string/COM_SID_EB_CONFIGURATION_NEXT"
+            android:layout_marginLeft="@dimen/dimen_4dp_w"
+            android:onClick="@{()->viewModel.onNextClick()}"
+           />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

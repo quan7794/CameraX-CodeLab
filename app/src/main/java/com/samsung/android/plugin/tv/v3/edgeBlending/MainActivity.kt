@@ -10,7 +10,7 @@ import com.samsung.android.plugin.tv.v3.edgeBlending.di.DynamicLoadModule
 import com.samsung.android.plugin.tv.v3.edgeBlending.di.EbInjector
 import com.samsung.android.plugin.tv.v3.edgeBlending.di.startKoin
 import com.samsung.android.plugin.tv.v3.edgeBlending.external.EbLoggerImpl
-import com.samsung.android.plugin.tv.v3.edgeBlending.ui.selectPhoto.SelectPhotoFragment
+import com.samsung.android.plugin.tv.v3.edgeBlending.ui.configuration.introduction.IntroductionFragment
 
 
 open class MainActivity : AppCompatActivity() {
@@ -24,7 +24,8 @@ open class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
                initKoin()
-        replaceFragment(SelectPhotoFragment(),R.id.container,SelectPhotoFragment.Tag)
+       // replaceFragment(SelectPhotoFragment(),R.id.container,SelectPhotoFragment.Tag)
+        replaceFragment(IntroductionFragment(),R.id.container, IntroductionFragment::class.java.simpleName)
 
 
     }
