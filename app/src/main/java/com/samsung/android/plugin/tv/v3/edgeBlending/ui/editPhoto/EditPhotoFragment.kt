@@ -5,10 +5,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.samsung.android.architecture.base.BaseVmDbFragment
-import com.samsung.android.architecture.ext.*
+import com.samsung.android.architecture.ext.getNormalViewModel
+import com.samsung.android.architecture.ext.getTagName
+import com.samsung.android.architecture.ext.observe
+import com.samsung.android.architecture.ext.putArgs
 import com.samsung.android.plugin.tv.v3.edgeBlending.R
 import com.samsung.android.plugin.tv.v3.edgeBlending.databinding.EbEditPhotoFragmentBinding
 import com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.adapter.SelectedPhotosAdapter
@@ -16,15 +17,13 @@ import com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.cropImageView.
 import com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.cropImageView.view.ImageCropView
 import com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.state.EditPhotoState
 import com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.state.ViewOnTvState
-import com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.util.Utils
-import com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.util.setMargin
-import com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.util.waitForLayout
 import com.samsung.android.plugin.tv.v3.edgeBlending.ui.selectPhoto.SelectPhotoFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.util.*
 
 
 class EditPhotoFragment : BaseVmDbFragment<EbEditPhotoFragmentBinding, EditPhotoViewModel>() {
@@ -38,12 +37,10 @@ class EditPhotoFragment : BaseVmDbFragment<EbEditPhotoFragmentBinding, EditPhoto
         initSlideShowArea()
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun initSlideShowArea() {
         slideShowAdapter = SelectedPhotosAdapter(viewModel.uriList, onSlideShowItemClick)
-        binding.selectedPhotos.apply {
-            layoutManager = GridLayoutManager(this.context, 1, GridLayoutManager.HORIZONTAL, false)
-            adapter = slideShowAdapter
-        }
+        binding.selectedPhotos.adapter = slideShowAdapter
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -52,7 +49,7 @@ class EditPhotoFragment : BaseVmDbFragment<EbEditPhotoFragmentBinding, EditPhoto
             currentPosition = clickPosition
             notifyDataSetChanged()
             updateCropView(clickPosition)
-            binding.selectedPhotos.scrollToPosition(clickPosition)
+            binding.selectedPhotos.smoothScrollToPosition(clickPosition)
         }
     }
 
@@ -76,27 +73,36 @@ class EditPhotoFragment : BaseVmDbFragment<EbEditPhotoFragmentBinding, EditPhoto
             }
         }
         observe(viewModel.state) {
+            binding.btnViewOnTv.disableWhenViewOnTv(it)
             when (it) {
-                is ViewOnTvState.Running -> {Log.d("ViewOnTvState", "Running")}
-                is ViewOnTvState.Success -> {Log.d("ViewOnTvState", "Success")}
-                is ViewOnTvState.Cancel -> {Log.d("ViewOnTvState", "Cancel")}
-                is ViewOnTvState.Error -> {Log.d("ViewOnTvState", "Error: ${it.cause }")}
+                is ViewOnTvState.Running -> {
+                    Log.d("ViewOnTvState", "Running")
+                    binding.btnViewOnTv.enable(false)
+                }
+                is ViewOnTvState.Success -> {
+                    Log.d("ViewOnTvState", "Success")
+                }
+                is ViewOnTvState.Cancel -> {
+                    Log.d("ViewOnTvState", "Cancel")
+                }
+                is ViewOnTvState.Error -> {
+                    Log.d("ViewOnTvState", "Error: ${it.cause}")
+                }
             }
         }
     }
 
     private fun viewOnTv() {
         viewLifecycleOwner.lifecycleScope.launch {
-            run {
+            runCatching {
                 updateViewOnTvState(ViewOnTvState.Running)
                 viewModel.uriList.forEachIndexed { index, uri ->
                     withContext(Dispatchers.Main) { onSlideShowItemClick(index, uri) }
-                    delay(300)
+                    delay(200)
                     cropImage(index.toString())
                 }
                 updateViewOnTvState(ViewOnTvState.Success)
-            }
-//                .getOrElse { updateViewOnTvState(ViewOnTvState.Error("Message: ${it.message}"))}
+            }.getOrElse { updateViewOnTvState(ViewOnTvState.Error("Message: ${it.message}")) }
         }
     }
 
@@ -105,12 +111,12 @@ class EditPhotoFragment : BaseVmDbFragment<EbEditPhotoFragmentBinding, EditPhoto
     }
 
     private suspend fun cropImage(fileName: String = "temp") = withContext(Dispatchers.IO) {
-        Log.e("cropImage","Status: Entry_______")
+        Log.e("cropImage", "Status: Entry_______")
         val saveDir = File(requireContext().cacheDir, "EbCache").also { if (!it.exists()) it.mkdir() }
-        Log.e("cropImage","$fileName.jpg")
+        Log.e("cropImage", "$fileName.jpg")
         val cropImage = binding.cropView.getCroppedImage()
         val result = Utils.saveImage(cropImage, saveDir, fileName)
-        Log.e("cropImage","Status: $result")
+        Log.e("cropImage", "Status: $result")
     }
 
     private fun initCropView(uri: List<Uri>) {

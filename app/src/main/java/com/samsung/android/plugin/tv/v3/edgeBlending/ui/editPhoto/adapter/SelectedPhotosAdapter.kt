@@ -15,7 +15,7 @@ class SelectedPhotosAdapter(uriList: ArrayList<Uri>, onItemClick: (Int, Uri) -> 
 
     override fun onBindViewHolder(holder: BaseViewHolder<Uri, ItemSimplePhotoBinding>, position: Int) {
         super.onBindViewHolder(holder, position)
-        holder.binding.selectedLine.visibility = if (currentPosition == position) View.VISIBLE else View.GONE
+        holder.binding.selectLine.visibility = if (currentPosition == position) View.VISIBLE else View.GONE
     }
 
 //    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int, newItems: List<CropPhotoModel>): Boolean {

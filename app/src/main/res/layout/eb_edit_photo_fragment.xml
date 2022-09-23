@@ -5,6 +5,8 @@
 
         <import type="android.view.View" />
 
+        <import type="com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.state.ViewOnTvState" />
+
         <variable
             name="vm"
             type="com.samsung.android.plugin.tv.v3.edgeBlending.ui.editPhoto.EditPhotoViewModel" />
@@ -69,9 +71,8 @@
                 android:layout_marginTop="@dimen/dimen_16dp_h"
                 android:layout_marginBottom="@dimen/dimen_20dp_h"
                 android:orientation="horizontal"
-                android:paddingStart="0dp"
-                android:paddingEnd="-8dp"
-                tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:addDecorationWithoutLastDivider="@{@drawable/divider}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_simple_photo" />
         </LinearLayout>
 
