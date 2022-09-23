@@ -56,12 +56,12 @@
 
     <style name="EBBottomButtonTextStyle">
         <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textColor">@color/COLOR_0074D4</item>
+        <item name="android:textColor">@color/COLOR_0381FE</item>
         <item name="android:textSize">@dimen/bottom_area_font_size</item>
     </style>
     <style name="EBTextStyle">
         <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textColor">@color/COLOR_0074D4</item>
+        <item name="android:textColor">@color/COLOR_0381FE</item>
         <item name="android:textSize">@dimen/bottom_area_font_size</item>
     </style>
 

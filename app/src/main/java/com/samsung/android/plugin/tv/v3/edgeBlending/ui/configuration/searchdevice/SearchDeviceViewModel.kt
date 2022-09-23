@@ -15,34 +15,59 @@ import kotlinx.coroutines.launch
 class SearchDeviceViewModel(val deviceRepository: DeviceRepository): NavigateUpViewModel() {
     val deviceList: MutableList<EBDeviceModel> = ArrayList()
 
+    private var prevPosition: Int = 0
+    private var selectedDevice: EBDeviceModel? = null
+
     init {
         showHeader(true)
     }
 
     fun setPhotoSelected(position: Int, photo: EBDeviceModel, adapterList:MutableList<EBDeviceModel>) {
+
         val selected = !photo.isSelected
         val newList = adapterList.toMutableList()
+
         newList[position] = newList[position].copy(isSelected = selected)
+        if (selected) {
+            if (prevPosition != position) {
+                newList[prevPosition] = newList[prevPosition].copy(isSelected = false)
+                prevPosition = position
+            }
+            selectedDevice = newList[position]
+
+        } else {
+            selectedDevice = null
+        }
         _state.value = SearchDeviceState.SelectedDevice(newList)
     }
 
-    fun getNearbyDevices(){
-        deviceList.addAll(fakeNearByDevices())
+    fun getNearbyDevices(prevDeviceId: String?){
+        val devices = fakeNearByDevices()
+       if(prevDeviceId != null) {
+            fakeNearByDevices().forEachIndexed { index, ebDeviceModel ->
+                if (ebDeviceModel.model.deviceId == prevDeviceId) {
+                    devices[index] = devices[index].copy(isSelected = true)
+                    return@forEachIndexed
+                }
+             }
+        }
+        deviceList.addAll(devices)
     }
 
     private fun fakeNearByDevices(): MutableList<EBDeviceModel>{
         val devices: MutableList<EBDeviceModel> = ArrayList()
         val device = EbDevice("FreeStyle A","abcd","abcd","12345", available = true, connected = false)
         devices.add(EBDeviceModel(device))
-        devices.add(EBDeviceModel(device.copy(name = "FreeStyle B", available = false)))
-        devices.add(EBDeviceModel(device.copy(name = "FreeStyle C", connected = true)))
-        devices.add(EBDeviceModel(device.copy(name = "FreeStyle D")))
-        devices.add(EBDeviceModel(device.copy(name = "FreeStyle E")))
-        devices.add(EBDeviceModel(device.copy(name = "FreeStyle F")))
-        devices.add(EBDeviceModel(device.copy(name = "FreeStyle G")))
-        devices.add(EBDeviceModel(device.copy(name = "FreeStyle H")))
+        devices.add(EBDeviceModel(device.copy(name = "FreeStyle B", deviceId = "1", available = false)))
+        devices.add(EBDeviceModel(device.copy(name = "FreeStyle C", deviceId = "2", connected = true)))
+        devices.add(EBDeviceModel(device.copy(name = "FreeStyle D", deviceId = "3")))
+        devices.add(EBDeviceModel(device.copy(name = "FreeStyle E", deviceId = "4")))
+        devices.add(EBDeviceModel(device.copy(name = "FreeStyle F", deviceId = "5")))
+        devices.add(EBDeviceModel(device.copy(name = "FreeStyle G", deviceId = "6")))
+        devices.add(EBDeviceModel(device.copy(name = "FreeStyle H", deviceId = "7")))
         return devices
     }
+
 
    fun setUpSearchStateFlow(searchView: SearchView) {
         viewModelScope.launch {
@@ -75,15 +100,16 @@ class SearchDeviceViewModel(val deviceRepository: DeviceRepository): NavigateUpV
     }
 
     fun onNextClick() {
-
+        _clickEvent.value = SearchDeviceEvent.ON_NEXT_CLICK(selectedDevice?.model)
     }
 
     fun onPreviousClick() {
-
+       _clickEvent.value = SearchDeviceEvent.ON_PREVIOUS_CLICK(selectedDevice?.model)
     }
 
     override fun onBackClick() {
         super.onBackClick()
+        _clickEvent.value = SearchDeviceEvent.ON_PREVIOUS_CLICK(selectedDevice?.model)
     }
 
 }

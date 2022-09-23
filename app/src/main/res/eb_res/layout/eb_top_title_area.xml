@@ -26,6 +26,7 @@
                 android:layout_width="@dimen/top_area_back_btn_width"
                 android:layout_height="@dimen/top_area_back_btn_height"
                 android:clickable="true"
+                android:onClick="@{()->viewModel.onBackClick()}"
                 android:background="@drawable/ic_title_back"
                 android:focusable="true" />
         </LinearLayout>

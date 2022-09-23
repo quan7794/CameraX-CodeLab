@@ -21,15 +21,18 @@
         android:id="@+id/radio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:checked="@{item.selected}"
         android:buttonTint="@color/colorPrimary"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:text="Freestyle B"
         android:text="@{item.model.name}"
+        android:clickable="false"
         android:textSize="@dimen/dimen_17dp_h"
         android:paddingLeft="@dimen/dimen_18dp_w"
         />
      <View
+         android:id="@+id/viewDivider"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_1dp_h"
         android:background="#FF999999"

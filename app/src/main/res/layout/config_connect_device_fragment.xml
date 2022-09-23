@@ -5,7 +5,7 @@
 
         <variable
             name="device"
-            type="com.samsung.android.plugin.tv.v3.edgeBlending.ui.configuration.searchdevice.EBDeviceModel" />
+            type="com.samsung.android.plugin.tv.v3.edgeBlending.domain.model.EbDevice" />
 
         <variable
             name="viewModel"
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dimen_8dp_w"
                 android:layout_marginTop="@dimen/dimen_16dp_h"
-                android:text="@{device.model.name}"
+                android:text="@{device.name}"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/dimen_17dp_h"
                 android:textStyle="bold"

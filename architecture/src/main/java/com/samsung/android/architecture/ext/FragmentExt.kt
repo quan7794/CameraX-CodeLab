@@ -28,6 +28,10 @@ inline fun <F> AppCompatActivity.replaceFragment(
     }
 }
 
+inline fun Fragment.navigateUp(){
+    requireActivity().supportFragmentManager.popBackStack()
+}
+
 inline fun <F> BaseVmDbFragment<*,*>.replaceFragment(
     fragment: F,
     id: Int,

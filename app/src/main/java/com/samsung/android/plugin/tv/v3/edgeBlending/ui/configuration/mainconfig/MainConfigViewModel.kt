@@ -11,14 +11,14 @@ class MainConfigViewModel: BaseViewModel() {
     private var indicatorCount: Int = 0
     private var indicatorView: Array<ImageView?>? = null
     private var _stepIndex = 0
-    val stepIndex = _stepIndex
+
 
     val headerResId: MutableList<Int> = arrayListOf(R.string.COM_SID_EB_CONFIGURATION_MAIN_HEADER,
     R.string.COM_SID_EB_CONFIGURATION_STEP_TWO_HEADER,R.string.COM_SID_EB_CONFIGURATION_MAIN_HEADER,
     R.string.COM_SID_EB_CONFIGURATION_MAKE_BLENDING_AREA, R.string.COM_SID_EB_CONFIGURATION_CONFIRM_BLENDING_AREA)
 
     fun setData(context: Context?) {
-        _clickEvent.value = MainConfigEventState.UpdateScreen(stepIndex, getConfigModel(stepIndex, context))
+        _clickEvent.value = MainConfigEventState.UpdateScreen(_stepIndex, getConfigModel(_stepIndex, context))
         updateIndicator(_stepIndex, context)
     }
 
@@ -42,14 +42,14 @@ class MainConfigViewModel: BaseViewModel() {
             3 -> {
                 ConfigModel(
                     title, context?.getString(R.string.COM_SID_EB_CONFIGURATION_CANCEL),
-                    context?.getString(R.string.COM_SID_EB_CONFIGURATION_BLEND)
+                    context?.getString(R.string.COM_SID_EB_CONFIGURATION_BLEND),3
                 )
             }
 
             else -> {
                 ConfigModel(
                     title, context?.getString(R.string.COM_SID_EB_CONFIGURATION_RETAKE),
-                    context?.getString(R.string.COM_SID_EB_CONFIGURATION_CONFIRM)
+                    context?.getString(R.string.COM_SID_EB_CONFIGURATION_CONFIRM), 4
                 )
             }
         }
@@ -121,6 +121,8 @@ class MainConfigViewModel: BaseViewModel() {
             _stepIndex++
             _clickEvent.value = MainConfigEventState.UpdateScreen(_stepIndex, getConfigModel(_stepIndex, context))
             updateIndicator(_stepIndex, context)
+        } else {
+            _clickEvent.value = MainConfigEventState.ConfirmButtonClick(_stepIndex, getConfigModel(_stepIndex, context))
         }
     }
 
@@ -130,6 +132,14 @@ class MainConfigViewModel: BaseViewModel() {
             _clickEvent.value = MainConfigEventState.UpdateScreen(_stepIndex, getConfigModel(_stepIndex, context))
             updateIndicator(_stepIndex, context)
         }
+    }
+
+    fun blendClick() {
+
+    }
+
+    fun confirmClick() {
+
     }
 
 }

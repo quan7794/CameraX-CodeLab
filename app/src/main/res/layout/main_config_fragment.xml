@@ -2,6 +2,7 @@
 <layout>
 
     <data>
+        <import type="android.view.Gravity" />
         <variable
             name="config"
             type="com.samsung.android.plugin.tv.v3.edgeBlending.ui.configuration.mainconfig.ConfigModel" />
@@ -82,32 +83,42 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="bottom"
+        android:paddingBottom="@dimen/dimen_16dp_h"
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:layout_width="@dimen/dimen_160dp_w"
-            android:layout_height="@dimen/dimen_56dp_h"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimen_44dp_h"
             android:layout_marginLeft="@dimen/dimen_24dp_w"
-            android:gravity="center_vertical"
-            android:textColor="@color/COLOR_3695DD"
-            android:textSize="@dimen/dimen_15dp_h"
-            android:layout_gravity="left|bottom"
-            android:textStyle="bold"
-            android:text="@{config.buttonLeftTitle}"
+            android:layout_marginRight="@dimen/dimen_8dp_w"
+            android:background='@{config.index>2?@drawable/bg_rounded_button_gray:@drawable/COLOR_TRANSPARENT}'
+            android:gravity='@{config.index>2?Gravity.CENTER:(Gravity.LEFT|Gravity.BOTTOM)}'
             android:onClick="@{()->viewModel.onPreviousClick(context)}"
+            android:text="@{config.buttonLeftTitle}"
+            android:textColor='@{config.index>2?@color/COLOR_010101:@color/COLOR_0381FE}'
+            android:textSize="@dimen/dimen_15dp_h"
+            android:textStyle="bold"
+            tools:textColor="@color/COLOR_0381FE"
+            tools:gravity="left"
             tools:text="@string/COM_SID_EB_CONFIGURATION_PREVIOUS" />
 
         <TextView
-            android:layout_width="@dimen/dimen_160dp_w"
-            android:layout_height="@dimen/dimen_56dp_h"
-            android:layout_gravity="right|bottom"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimen_44dp_h"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/dimen_8dp_w"
             android:layout_marginRight="@dimen/dimen_24dp_w"
-            android:gravity="center_vertical|right"
-            android:textColor="@color/COLOR_3695DD"
+            android:gravity='@{config.index>2?Gravity.CENTER:(Gravity.RIGHT|Gravity.BOTTOM)}'
+            android:textColor='@{config.index>2?@color/white:@color/COLOR_0381FE}'
             android:textSize="@dimen/dimen_15dp_h"
             android:textStyle="bold"
+            tools:gravity="right"
+            tools:textColor="@color/COLOR_0381FE"
             android:text="@{config.buttonRightTitle}"
             android:onClick="@{()->viewModel.onNextClick(context)}"
+            android:background='@{config.index>2?@drawable/bg_rounded_button_blue:@drawable/COLOR_TRANSPARENT}'
             tools:text="@string/COM_SID_EB_CONFIGURATION_NEXT" />
 
     </LinearLayout>
