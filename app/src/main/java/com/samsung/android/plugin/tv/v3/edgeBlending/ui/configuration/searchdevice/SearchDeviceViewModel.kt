@@ -47,6 +47,7 @@ class SearchDeviceViewModel(val deviceRepository: DeviceRepository): NavigateUpV
             fakeNearByDevices().forEachIndexed { index, ebDeviceModel ->
                 if (ebDeviceModel.model.deviceId == prevDeviceId) {
                     devices[index] = devices[index].copy(isSelected = true)
+                    prevPosition = index
                     return@forEachIndexed
                 }
              }
