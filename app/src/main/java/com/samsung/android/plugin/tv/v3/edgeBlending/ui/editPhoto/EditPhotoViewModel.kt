@@ -17,9 +17,7 @@ class EditPhotoViewModel: BaseViewModel() {
     private var _slideShowVisibility = MutableStateFlow(View.GONE)
     val slideShowVisibility = _slideShowVisibility.asStateFlow()
 
-    fun setSlideVisibility(isVisible: Boolean) {
-        _slideShowVisibility.value = if (isVisible) View.VISIBLE else View.GONE
-    }
+    fun setSlideAreaVisibility(isVisible: Boolean) { _slideShowVisibility.value = if (isVisible) View.VISIBLE else View.GONE }
 
     fun onClick(view: View) {
         when (view.id) {

@@ -14,7 +14,8 @@
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="@dimen/dimen_70dp_w"
-        android:layout_height="@dimen/dimen_70dp_w">
+        android:layout_height="@dimen/dimen_70dp_w"
+        app:cardCornerRadius="@dimen/dimen_0dp">
 
         <ImageView
             android:id="@+id/photo"
@@ -28,6 +29,7 @@
             android:id="@+id/selectLine"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            tools:visibility="gone"
             android:src="@drawable/outline_photo_select_normal" />
 
     </androidx.cardview.widget.CardView>

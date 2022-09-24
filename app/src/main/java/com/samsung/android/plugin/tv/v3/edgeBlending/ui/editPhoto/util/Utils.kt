@@ -78,7 +78,8 @@ fun View.enable(value: Boolean) = run {
 @BindingAdapter("disableWhenViewOnTv")
 fun View.disableWhenViewOnTv(value: UIState?) {
     if (value !is ViewOnTvState) return
-    this.enable(ViewOnTvState.Running != value)
+    val isEnable = value !is ViewOnTvState.Start &&  (value !is ViewOnTvState.CropPercent)
+    this.enable(isEnable)
 }
 
 @BindingAdapter("addDecorationWithoutLastDivider")

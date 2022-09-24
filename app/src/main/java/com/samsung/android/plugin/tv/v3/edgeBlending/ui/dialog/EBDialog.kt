@@ -1,5 +1,6 @@
 package com.samsung.android.plugin.tv.v3.edgeBlending.ui.dialog
 
+import android.animation.ObjectAnimator
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
@@ -11,7 +12,9 @@ import android.view.Display
 import android.view.Gravity
 import android.view.View
 import android.view.Window
+import android.view.animation.DecelerateInterpolator
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 
 import com.samsung.android.architecture.base.ILogger
@@ -19,10 +22,8 @@ import com.samsung.android.architecture.ext.injectObject
 import com.samsung.android.plugin.tv.v3.edgeBlending.R
 
 
-class EBDialog private constructor(context: Context?, builder: EBDialogBuilder) :
-    Dialog(
-        context!!
-    ) {
+class EBDialog private constructor(context: Context?, builder: EBDialogBuilder) : Dialog(context!!) {
+    private var mAnimator: ObjectAnimator? = null
     private var title: String? = null
     private var description: String? = null
     private var okButtonText: String? = null
@@ -32,13 +33,11 @@ class EBDialog private constructor(context: Context?, builder: EBDialogBuilder) 
     private var userOkListener: View.OnClickListener? = null
     private var userCancelListener: View.OnClickListener? = null
     private var cancelable: Boolean? = null
+    private var dialogType: DialogType? = null
     val mLogger: ILogger by injectObject()
 
-    enum class DialogType {
-        ONE_BUTTON, TWO_BUTTON, PROGRESS_BAR, SERVER_ERROR
-    }
+    enum class DialogType { ONE_BUTTON, TWO_BUTTON, PROGRESS_BAR, SERVER_ERROR }
 
-    private var dialogType: DialogType? = null
     private fun assignValues(builder: EBDialogBuilder) {
         dialogType = builder.dialogType
         screenId = builder.screenId
@@ -47,13 +46,13 @@ class EBDialog private constructor(context: Context?, builder: EBDialogBuilder) 
         errorDescription = builder.errorDescription
         cancelButtonText = builder.cancelButtonText
         okButtonText = builder.okButtonText
-        userCancelListener = builder.userCancelListener
-        userOkListener = builder.userOkListener
+        userCancelListener = View.OnClickListener { builder.userCancelListener?.invoke() }
+        userOkListener = View.OnClickListener { builder.userOkListener?.invoke() }
         cancelable = builder.cancelable
     }
 
-    fun setButtonClickListener(okButtonClickListener: View.OnClickListener?) {
-        userOkListener = okButtonClickListener
+    fun setButtonClickListener(okButtonClickListener: (() -> Unit) = {}) {
+        userOkListener = View.OnClickListener { okButtonClickListener.invoke() }
     }
 
     private val okButtonClickListener = View.OnClickListener { view ->
@@ -66,36 +65,39 @@ class EBDialog private constructor(context: Context?, builder: EBDialogBuilder) 
     }
     private val cancelButtonClickListener = View.OnClickListener { view ->
         sendCancelSALog()
-        if (userCancelListener != null) {
-            userCancelListener!!.onClick(view)
-        }
+        userCancelListener?.onClick(view)
         dismiss()
     }
 
-    private fun sendOkSALog() {
-        if (!screenId.isEmpty()) {
+    private fun sendOkSALog() = run { if (screenId.isNotEmpty()) mLogger.d(TAG, "sendOkSALog()", "entering..") }
 
-            mLogger.d(TAG, "sendOkSALog()", "entering..")
+    private fun sendCancelSALog() = run { if (screenId.isNotEmpty()) mLogger.d(TAG, "sendCancelSALog()", "entering..") }
+
+    fun setProgressBar(duration: Int, vararg values: Int): ObjectAnimator? {
+        mAnimator?.apply {
+            removeAllListeners()
+            cancel()
+            end()
         }
+        mAnimator = ObjectAnimator.ofInt(getProgressBar(), "progress", *values)
+        mAnimator?.apply {
+            setDuration(duration.toLong())
+            interpolator = DecelerateInterpolator()
+            start()
+        }
+        return mAnimator
     }
 
-    private fun sendCancelSALog() {
-        if (!screenId.isEmpty()) {
-            mLogger.d(TAG, "sendCancelSALog()", "entering..")
-        }
-    }
+    private fun getProgressBar(): ProgressBar = findViewById(R.id.progressbar)
+    fun getProgress() = (findViewById<View>(R.id.progressbar) as ProgressBar).progress
 
-    override fun onCreate(savedInstanceState: Bundle) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.eb_dialog)
         window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        if (cancelable != null) {
-            setCancelable(cancelable!!)
-        } else {
-            setCancelable(false)
-        }
-        //        saLogSender = LifeStyleInjector.getLifeStyleSALogSender();
+        if (cancelable != null) setCancelable(cancelable!!)
+        else setCancelable(false)
         initViews()
     }
 
@@ -116,48 +118,35 @@ class EBDialog private constructor(context: Context?, builder: EBDialogBuilder) 
         private get() {
             val typedValue = TypedValue()
             context.resources.getValue(R.dimen.ambient_dialog_width_scale, typedValue, true)
-            return typedValue.getFloat()
+            return typedValue.float
         }
 
     private fun initViews() {
         val titleView = findViewById<TextView>(R.id.dialog_title)
-        if (title!!.isEmpty()) {
-            titleView.visibility = View.GONE
-        } else {
-            titleView.text = title
-        }
+        if (title!!.isEmpty()) titleView.visibility = View.GONE
+        else titleView.text = title
         val descriptionView = findViewById<TextView>(R.id.dialog_description)
         descriptionView.text = description
         val okButton = findViewById<TextView>(R.id.dialog_button_ok)
-        if (!okButtonText!!.isEmpty()) {
-            okButton.text = okButtonText
-        }
+        if (okButtonText!!.isNotEmpty()) okButton.text = okButtonText
         val cancelButton = findViewById<TextView>(R.id.dialog_button_cancel)
-        if (!cancelButtonText!!.isEmpty()) {
-            cancelButton.text = cancelButtonText
-        }
+        if (cancelButtonText!!.isNotEmpty()) cancelButton.text = cancelButtonText
         val progressbarLayout: LinearLayout = findViewById(R.id.layout_progressbar)
         when (dialogType) {
-            DialogType.ONE_BUTTON -> {
-            }
+            DialogType.ONE_BUTTON -> {}
             DialogType.TWO_BUTTON -> {
                 cancelButton.visibility = View.VISIBLE
-                if (cancelable == null) {
-                    setCancelable(true)
-                }
+                if (cancelable == null) setCancelable(true)
                 findViewById<View>(R.id.divider_button).visibility = View.VISIBLE
             }
-            DialogType.PROGRESS_BAR -> progressbarLayout.setVisibility(View.VISIBLE)
+            DialogType.PROGRESS_BAR -> progressbarLayout.visibility = View.VISIBLE
             DialogType.SERVER_ERROR -> setErrorDescription()
-            else -> {
-            }
+            else -> {}
         }
         okButton.setOnClickListener(okButtonClickListener)
-        okButton.contentDescription =
-            okButton.text.toString() + ", " + context.getString(R.string.COM_SID_IOTCONTROL_BUTTON)
+        okButton.contentDescription = okButton.text.toString() + ", " + context.getString(R.string.COM_SID_IOTCONTROL_BUTTON)
         cancelButton.setOnClickListener(cancelButtonClickListener)
-        cancelButton.contentDescription =
-            cancelButton.text.toString() + ", " + context.getString(R.string.COM_SID_IOTCONTROL_BUTTON)
+        cancelButton.contentDescription = cancelButton.text.toString() + ", " + context.getString(R.string.COM_SID_IOTCONTROL_BUTTON)
     }
 
     private fun setErrorDescription() {
@@ -175,9 +164,8 @@ class EBDialog private constructor(context: Context?, builder: EBDialogBuilder) 
         var errorDescription = ""
         var screenId = ""
 
-        //        private SAInfo okSAInfo, cancelSAInfo;
-        var userOkListener: View.OnClickListener? = null
-        var userCancelListener: View.OnClickListener? = null
+        var userOkListener: (() -> Unit)? = null
+        var userCancelListener: (() -> Unit)? = null
         var cancelable: Boolean? = null
         fun screenId(screenId: String): EBDialogBuilder {
             this.screenId = screenId
@@ -238,21 +226,14 @@ class EBDialog private constructor(context: Context?, builder: EBDialogBuilder) 
             return this
         }
 
-        fun buttonClickListener(okButtonClickListener: View.OnClickListener?): EBDialogBuilder {
+        fun buttonClickListener(okButtonClickListener: () -> Unit): EBDialogBuilder {
             userOkListener = okButtonClickListener
             return this
         }
 
-        fun buttonClickListener(
-            cancelButtonClickListener: View.OnClickListener?,
-            okButtonClickListener: View.OnClickListener?
-        ): EBDialogBuilder {
-            if (cancelButtonClickListener != null) {
-                userCancelListener = cancelButtonClickListener
-            }
-            if (okButtonClickListener != null) {
-                userOkListener = okButtonClickListener
-            }
+        fun buttonClickListener(cancelButtonClickListener: () -> Unit = {}, okButtonClickListener: () -> Unit = {}): EBDialogBuilder {
+            userCancelListener = cancelButtonClickListener
+            userOkListener = okButtonClickListener
             return this
         }
 
@@ -261,9 +242,7 @@ class EBDialog private constructor(context: Context?, builder: EBDialogBuilder) 
             return this
         }
 
-        fun build(): EBDialog {
-            return EBDialog(context, this)
-        }
+        fun build() = EBDialog(context, this)
 
         fun show(): EBDialog {
             val dialog = build()
@@ -272,20 +251,17 @@ class EBDialog private constructor(context: Context?, builder: EBDialogBuilder) 
         }
 
         init {
-
             when (dialogType) {
-                DialogType.ONE_BUTTON -> {
-                }
-                DialogType.TWO_BUTTON -> {
-                }
+                DialogType.ONE_BUTTON -> {}
+                DialogType.TWO_BUTTON -> {}
                 DialogType.PROGRESS_BAR -> {
                     title = context!!.getString(R.string.COM_COMMONCTRL_SEND)
-                   // description = getTextSendingContentToDevice(context)
+                    // description = getTextSendingContentToDevice(context)
                     okButtonText = context.getString(R.string.COM_SID_CANCEL_ABBR_7)
                 }
                 DialogType.SERVER_ERROR -> {
                     title = context!!.getString(R.string.COM_SID_ERROR_KR_ERROR)
-                   // description = getTextAnErrorOccurredWithMobileAnDevice(context)
+                    // description = getTextAnErrorOccurredWithMobileAnDevice(context)
                 }
 
             }

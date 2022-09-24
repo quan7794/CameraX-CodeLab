@@ -8,7 +8,7 @@ import com.samsung.android.plugin.tv.v3.edgeBlending.R
 import com.samsung.android.plugin.tv.v3.edgeBlending.databinding.ItemSimplePhotoBinding
 
 class SelectedPhotosAdapter(uriList: ArrayList<Uri>, onItemClick: (Int, Uri) -> Unit) :
-    SingleLayoutAdapter<Uri, ItemSimplePhotoBinding>(R.layout.item_simple_photo, uriList, onItemClick) {
+    SingleLayoutAdapter<Uri, ItemSimplePhotoBinding>(R.layout.eb_simple_photo_item, uriList, onItemClick) {
 
     var recentPosition = 0
     var currentPosition = 0

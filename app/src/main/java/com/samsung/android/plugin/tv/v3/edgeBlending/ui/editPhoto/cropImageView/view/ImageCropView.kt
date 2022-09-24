@@ -147,15 +147,13 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        if (LOG_ENABLED) Log.d("onDraw", "Entry")
+        logD("onDraw", "Entry")
         drawTransparentLayer(canvas)
         drawGrid(canvas)
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-        if (LOG_ENABLED) {
-            Log.d(LOG_TAG, "onLayout: $changed, bitmapChanged: $mBitmapChanged")
-        }
+        logD("onLayout", "changed: $changed, bitmapChanged: $mBitmapChanged")
         super.onLayout(changed, left, top, right, bottom)
         var deltaX = 0
         var deltaY = 0
@@ -202,12 +200,10 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
                 val oldMinScale = min(1f, 1f / oldMatrixScale)
                 getProperBaseMatrix(drawable, mBaseMatrix)
                 val newMatrixScale = getScale(mBaseMatrix)
-                if (LOG_ENABLED) {
-                    Log.d(LOG_TAG, "old matrix scale: $oldMatrixScale")
-                    Log.d(LOG_TAG, "new matrix scale: $newMatrixScale")
-                    Log.d(LOG_TAG, "old min scale: $oldMinScale")
-                    Log.d(LOG_TAG, "old scale: $oldScale")
-                }
+                logD("onLayout", "old matrix scale: $oldMatrixScale")
+                logD("onLayout", "new matrix scale: $newMatrixScale")
+                logD("onLayout", "old min scale: $oldMinScale")
+                logD("onLayout", "old scale: $oldScale")
 
                 // 1. bitmap changed or scaleType changed
                 if (mBitmapChanged) {
@@ -225,15 +221,11 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
                         if (abs(oldScale - oldMinScale) > 0.001) {
                             scale = oldMatrixScale / newMatrixScale * oldScale
                         }
-                        if (LOG_ENABLED) {
-                            Log.v(LOG_TAG, "userScaled. scale=$scale")
-                        }
+                        logV("onLayout", "userScaled. scale=$scale")
                         zoomTo(scale)
                     }
-                    if (LOG_ENABLED) {
-                        Log.d(LOG_TAG, "old scale: $oldScale")
-                        Log.d(LOG_TAG, "new scale: $scale")
-                    }
+                    logD("onLayout", "old scale: $oldScale")
+                    logD("onLayout", "new scale: $scale")
                 }
                 mUserScaled = false
                 if (scale > maxScale || scale < minScale) {
@@ -246,9 +238,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
                 }
                 if (mBitmapChanged) mBitmapChanged = false
                 if (mRestoreRequest) mRestoreRequest = false
-                if (LOG_ENABLED) {
-                    Log.d(LOG_TAG, "new scale: $scale")
-                }
+                logD("onLayout", "new scale: $scale")
             }
         } else {
             if (mBitmapChanged) mBitmapChanged = false
@@ -263,9 +253,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
     fun resetMatrix() {
-        if (LOG_ENABLED) {
-            Log.i(LOG_TAG, "resetMatrix")
-        }
+        logI("resetMatrix", "resetMatrix")
         mSuppMatrix = Matrix()
         imageMatrix = imageViewMatrix
         zoomTo(1f)
@@ -389,14 +377,10 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
     protected fun _setImageDrawable(drawable: Drawable?, min_zoom: Float, max_zoom: Float) {
         var minZoom = min_zoom
         var maxZoom = max_zoom
-        if (LOG_ENABLED) {
-            Log.i(LOG_TAG, "_setImageDrawable")
-        }
+        logI("_setImageDrawable", "Entry")
         mBaseMatrix.reset()
         if (drawable != null) {
-            if (LOG_ENABLED) {
-                Log.d(LOG_TAG, "size: " + drawable.intrinsicWidth + "x" + drawable.intrinsicHeight)
-            }
+            logD("_setImageDrawable", "size: " + drawable.intrinsicWidth + "x" + drawable.intrinsicHeight)
             super.setImageDrawable(drawable)
         } else {
             super.setImageDrawable(null)
@@ -414,59 +398,43 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
             mMinZoomDefined = false
             mMaxZoomDefined = false
         }
-        if (LOG_ENABLED) {
-            Log.v(LOG_TAG, "mMinZoom: $mMinZoom, mMaxZoom: $mMaxZoom")
-        }
+        logV("_setImageDrawable", "mMinZoom: $mMinZoom, mMaxZoom: $mMaxZoom")
         mBitmapChanged = true
         mScaleFactor = maxScale / 3
         requestLayout()
     }
 
     private fun computeMaxZoom(): Float {
-        Log.i(LOG_TAG, "computeMaxZoom: entry")
+        logI("computeMaxZoom", "Entry")
         if (drawable == null) {
             return 1f
         }
         val fw = drawable.intrinsicWidth.toFloat() / mThisWidth.toFloat()
         val fh = drawable.intrinsicHeight.toFloat() / mThisHeight.toFloat()
         val scale = max(fw, fh) * 8
-        if (LOG_ENABLED) {
-            Log.i(LOG_TAG, "computeMaxZoom: $scale")
-        }
+        logI("computeMaxZoom", "scale: $scale")
         return scale
     }
 
     open fun computeMinZoom(): Float {
-        if (LOG_ENABLED) {
-            Log.i(LOG_TAG, "computeMinZoom")
-        }
-        val drawable = drawable ?: return 1f
+        logI("computeMinZoom", "Entry")
+        drawable ?: return 1f
         var scale = getScale(mBaseMatrix)
         scale = min(1f, 1f / scale)
-        if (LOG_ENABLED) {
-            Log.i(LOG_TAG, "computeMinZoom: $scale")
-        }
+        logI("computeMinZoom", "scale: $scale")
         return scale
     }
 
     val maxScale: Float
         get() {
-            if (mMaxZoom == ZOOM_INVALID) {
-                mMaxZoom = computeMaxZoom()
-            }
+            if (mMaxZoom == ZOOM_INVALID) mMaxZoom = computeMaxZoom()
             return mMaxZoom
         }
     val minScale: Float
         get() {
-            if (LOG_ENABLED) {
-                Log.i(LOG_TAG, "getMinScale, mMinZoom: $mMinZoom")
-            }
-            if (mMinZoom == ZOOM_INVALID) {
-                mMinZoom = computeMinZoom()
-            }
-            if (LOG_ENABLED) {
-                Log.v(LOG_TAG, "mMinZoom: $mMinZoom")
-            }
+            logI("getMinScale", "Entry, MinZoom: $mMinZoom")
+            if (mMinZoom == ZOOM_INVALID) mMinZoom = computeMinZoom()
+            logV("getMinScale", "mMinZoom: $mMinZoom")
             return mMinZoom
         }
     val imageViewMatrix: Matrix
@@ -482,9 +450,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
     protected fun getProperBaseMatrix(drawable: Drawable, matrix: Matrix) {
         val viewWidth = mCropRect.width()
         val viewHeight = mCropRect.height()
-        if (LOG_ENABLED) {
-            Log.d(LOG_TAG, "getProperBaseMatrix. view: " + viewWidth + "x" + viewHeight)
-        }
+        logD("getProperBaseMatrix", "view: " + viewWidth + "x" + viewHeight)
         val w = drawable.intrinsicWidth.toFloat()
         val h = drawable.intrinsicHeight.toFloat()
         val widthScale: Float
@@ -507,9 +473,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
             val th = (viewHeight - h * baseScale) / 2.0f
             matrix.postTranslate(tw, th)
         }
-        if (LOG_ENABLED) {
-            printMatrix(matrix)
-        }
+        printMatrix(matrix)
     }
 
     protected fun getValue(matrix: Matrix, whichValue: Int): Float {
@@ -518,11 +482,11 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
     fun printMatrix(matrix: Matrix) {
-        val scalex = getValue(matrix, Matrix.MSCALE_X)
-        val scaley = getValue(matrix, Matrix.MSCALE_Y)
+        val scaleX = getValue(matrix, Matrix.MSCALE_X)
+        val scaleY = getValue(matrix, Matrix.MSCALE_Y)
         val tx = getValue(matrix, Matrix.MTRANS_X)
         val ty = getValue(matrix, Matrix.MTRANS_Y)
-        Log.d(LOG_TAG, "matrix: { x: $tx, y: $ty, scalex: $scalex, scaley: $scaley }")
+        logD("printMatrix", "matrix: { x: $tx, y: $ty, scaleX: $scaleX, scaleY: $scaleY }")
     }
 
     val bitmapRect: RectF?
@@ -553,13 +517,11 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
     protected fun center(horizontal: Boolean, vertical: Boolean) {
-        if (LOG_ENABLED) Log.d("center()", "___________________________")
+        logD("center", "___________________________")
         if (drawable == null) return
         val rect = getCenter(mSuppMatrix, horizontal, vertical)
         if (rect.left != 0f || rect.top != 0f) {
-            if (LOG_ENABLED) {
-                Log.i(LOG_TAG, "center")
-            }
+            logI("center", "center")
             postTranslate(rect.left, rect.top)
         }
     }
@@ -602,32 +564,24 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
 
     open fun postTranslate(deltaX: Float, deltaY: Float) {
         if (deltaX != 0f || deltaY != 0f) {
-            if (LOG_ENABLED) {
-                Log.i(LOG_TAG, "postTranslate: " + deltaX + "x" + deltaY)
-            }
+            logI("postTranslate", "deltaX: $deltaX, deltaY: $deltaY")
             mSuppMatrix.postTranslate(deltaX, deltaY)
             imageMatrix = imageViewMatrix
         }
     }
 
     fun postScale(scale: Float, centerX: Float, centerY: Float) {
-        if (LOG_ENABLED) {
-            Log.i(LOG_TAG, "postScale: " + scale + ", center: " + centerX + "x" + centerY)
-        }
+        logI("postScale", "scale: $scale, centerX: ${centerX}, centerY: $centerY")
         mSuppMatrix.postScale(scale, scale, centerX, centerY)
         imageMatrix = imageViewMatrix
     }
 
     open fun zoomTo(scaleVal: Float) {
         var scale = scaleVal
-        if (LOG_ENABLED) {
-            Log.i(LOG_TAG, "zoomTo: $scale")
-        }
+        logI("zoomTo", "Entry zoomTo: $scale")
         if (scale > maxScale) scale = maxScale
         if (scale < minScale) scale = minScale
-        if (LOG_ENABLED) {
-            Log.d(LOG_TAG, "sanitized scale: $scale")
-        }
+        logD("zoomTo", "final scale: $scale")
 //        val center = center
         zoomTo(scale, center.x, center.y)
     }
@@ -639,40 +593,34 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
 
     protected fun zoomTo(scaleVal: Float, centerX: Float, centerY: Float) {
         val deltaScale = (if (scaleVal > maxScale) maxScale else scaleVal) / scale
-        Log.d(LOG_TAG, "deltaScale: $deltaScale")
+        logD("zoomTo", "deltaScale: $deltaScale")
         postScale(deltaScale, centerX, centerY)
         center(true, true)
     }
 
     fun onZoomAnimationCompleted(scale: Float) {
-        if (LOG_ENABLED) {
-            Log.d(LOG_TAG, "onZoomAnimationCompleted. scale: $scale, minZoom: $minScale")
-        }
-        if (scale < minScale) {
-            zoomTo(minScale, 50f)
-        }
+        logD("onZoomAnimationCompleted", "scale: $scale, minZoom: $minScale")
+        if (scale < minScale) zoomTo(minScale, 50f)
     }
 
     fun scrollBy(x: Float, y: Float) {
-        Log.d("scrollBy", "__________")
+        logD("scrollBy", "__________")
         panBy(x.toDouble(), y.toDouble())
     }
 
     protected fun panBy(dx: Double, dy: Double) {
-        Log.d("panBy", "__________")
+        logD("panBy", "__________")
         mScrollRect[dx.toFloat(), dy.toFloat(), 0f] = 0f
         postTranslate(mScrollRect.left, mScrollRect.top)
         adjustCropAreaImage()
     }
 
     private fun adjustCropAreaImage() {
-        Log.d("adjustCropAreaImage", "__________")
+        logD("adjustCropAreaImage", "__________")
         if (drawable == null) return
         val rect = getAdjust(mSuppMatrix)
         if (rect.left != 0f || rect.top != 0f) {
-            if (LOG_ENABLED) {
-                Log.i(LOG_TAG, "center")
-            }
+            logI("scrollBy", "center")
             postTranslate(rect.left, rect.top)
         }
     }
@@ -769,7 +717,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
     val viewBitmap: Bitmap?
         get() {
             val draw = drawable
-            return if (draw != null) (draw as FastBitmapDrawable).bitmap else null.also { Log.e(LOG_TAG, "drawable is null") }
+            return if (draw != null) (draw as FastBitmapDrawable).bitmap else null.also { logE("getViewBitmap", "drawable is null") }
         }
 
     fun setGridInnerMode(gridInnerMode: Int) {
@@ -841,21 +789,21 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
 
-    fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
+    fun onSingleTapConfirmed(event: MotionEvent?): Boolean {
         return true
     }
 
-    fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
+    fun onScroll(event1: MotionEvent?, event2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
         mUserScaled = true
         scrollBy(-distanceX, -distanceY)
         invalidate()
         return true
     }
 
-    fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
-        val diffX = e2.x - e1.x
-        val diffY = e2.y - e1.y
-        if (abs(velocityX) > 800 || Math.abs(velocityY) > 800) {
+    fun onFling(event1: MotionEvent, event2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
+        val diffX = event2.x - event1.x
+        val diffY = event2.y - event1.y
+        if (abs(velocityX) > 800 || abs(velocityY) > 800) {
             mUserScaled = true
             scrollBy(diffX / 2, diffY / 2, 300.0)
             invalidate()
@@ -864,10 +812,10 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
         return false
     }
 
-    fun onDown(e: MotionEvent?) = !mBitmapChanged
+    fun onDown(event: MotionEvent?) = !mBitmapChanged
 
-    fun onUp(e: MotionEvent?): Boolean {
-        Log.d("onUp", "______")
+    fun onUp(event: MotionEvent?): Boolean {
+        logD("onUp", "______")
         if (mBitmapChanged) return false
         if (scale < minScale) zoomTo(minScale, 50f)
         isGesturing = false
@@ -875,7 +823,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
         return true
     }
 
-    fun onSingleTapUp(e: MotionEvent?) = !mBitmapChanged
+    fun onSingleTapUp(event: MotionEvent?) = !mBitmapChanged
 
     inner class GestureListener : SimpleOnGestureListener() {
         override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
@@ -886,9 +834,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
         }
 
         override fun onDoubleTap(e: MotionEvent): Boolean {
-            if (LOG_ENABLED) {
-                Log.d(LOG_TAG, "onDoubleTap. double tap enabled? $doubleTapEnabled")
-            }
+            logD("onDoubleTap", "Double tap enabled? $doubleTapEnabled")
             if (doubleTapEnabled) {
                 mUserScaled = true
                 val scale = scale
@@ -942,7 +888,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
         }
 
         override fun onScale(detector: ScaleGestureDetector): Boolean {
-            Log.d("onScale", "Entry")
+            logD("onScale", "Entry")
             val span = detector.currentSpan - detector.previousSpan
             var targetScale = scale * detector.scaleFactor
             if (mScaleEnabled) {
@@ -963,7 +909,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
         }
 
         override fun onScaleEnd(detector: ScaleGestureDetector) {
-            Log.d("onScale", "End")
+            logD("onScale", "End")
             isChangingScale = false
             super.onScaleEnd(detector)
         }
@@ -991,7 +937,7 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
     private fun applyValues(values: FloatArray) {
-        Log.i(LOG_TAG, "Matrix updated based on previous position info")
+        logI("applyValues", "Matrix updated based on previous position info")
         mSuppMatrix = Matrix()
         mSuppMatrix.setValues(values)
         imageMatrix = imageViewMatrix
@@ -999,7 +945,6 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
     companion object {
-        const val LOG_TAG = "ImageCropViewKt"
         protected const val LOG_ENABLED = false
         const val ZOOM_INVALID = -1f
         const val DEFAULT_ASPECT_RATIO_WIDTH = 1
@@ -1013,4 +958,10 @@ open class ImageCropView @JvmOverloads constructor(context: Context, attrs: Attr
     init {
         init(context, attrs)
     }
+
+    private fun logV(functionName: String = "", message: String) = run { if (LOG_ENABLED) Log.v(this::class.java.simpleName, "$functionName() - $message") }
+    private fun logD(functionName: String = "", message: String) = run { if (LOG_ENABLED) Log.d(this::class.java.simpleName, "$functionName() - $message") }
+    private fun logI(functionName: String = "", message: String) = run { if (LOG_ENABLED) Log.i(this::class.java.simpleName, "$functionName() - $message") }
+    private fun logE(functionName: String = "", message: String) = run { if (LOG_ENABLED) Log.e(this::class.java.simpleName, "$functionName() - $message") }
+
 }

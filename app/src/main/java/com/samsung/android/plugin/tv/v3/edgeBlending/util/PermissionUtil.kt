@@ -22,15 +22,10 @@ class PermissionUtil {
     }
 
     fun showPermissionRequiredDialog(context: Context, action: () -> Unit) {
-        EBDialog.EBDialogBuilder(
-            context,
-            EBDialog.DialogType.ONE_BUTTON
-        )
+        EBDialog.EBDialogBuilder(context, EBDialog.DialogType.ONE_BUTTON)
             .title(R.string.MAPP_SID_CORE_CAMAR_PERMISSION_REQUIRED)
             .description(R.string.MAPP_SID_CORE_CAMAR_TO_USE_ALLOW_PERMIS_IN_ST)
-            .buttonClickListener(View.OnClickListener { v: View? ->
-                action.invoke()
-            })
+            .buttonClickListener(action)
             .show()
     }
 
